@@ -1,0 +1,12 @@
+{
+  "centralizedAuthenticationProviderApp": {
+    "TokenStatus": {
+      "null": "",
+      "ACTIVE": "ACTIVE",
+      "EXPIRED": "EXPIRED",
+      "REVOKED": "REVOKED",
+      "INACTIVE": "INACTIVE",
+      "USED": "USED"
+    }
+  }
+}

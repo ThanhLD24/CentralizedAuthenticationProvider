@@ -1,0 +1,29 @@
+{
+  "centralizedAuthenticationProviderApp": {
+    "applicationSystem": {
+      "home": {
+        "title": "Application Systems",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Application System",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Application System",
+        "notFound": "No Application Systems found"
+      },
+      "created": "Một Application System mới được tạo với định danh {{ param }}",
+      "updated": "Một Application System cập nhật với định danh {{ param }}",
+      "deleted": "Một Application System đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Application System {{ id }}?"
+      },
+      "detail": {
+        "title": "Application System"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "createdDate": "Created Date",
+      "updatedDate": "Updated Date",
+      "active": "Active",
+      "user": "User"
+    }
+  }
+}

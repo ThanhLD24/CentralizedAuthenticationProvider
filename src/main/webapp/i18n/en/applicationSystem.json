@@ -1,0 +1,29 @@
+{
+  "centralizedAuthenticationProviderApp": {
+    "applicationSystem": {
+      "home": {
+        "title": "Application Systems",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Application System",
+        "createOrEditLabel": "Create or edit a Application System",
+        "notFound": "No Application Systems found"
+      },
+      "created": "A new Application System is created with identifier {{ param }}",
+      "updated": "A Application System is updated with identifier {{ param }}",
+      "deleted": "A Application System is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Application System {{ id }}?"
+      },
+      "detail": {
+        "title": "Application System"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "createdDate": "Created Date",
+      "updatedDate": "Updated Date",
+      "active": "Active",
+      "user": "User"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (accessToken(); as accessTokenRef) {
+      <div>
+        <h2 data-cy="accessTokenDetailsHeading">
+          <span jhiTranslate="centralizedAuthenticationProviderApp.accessToken.detail.title">Access Token</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ accessTokenRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.accessToken.hashedToken">Hashed Token</span></dt>
+          <dd>
+            <span>{{ accessTokenRef.hashedToken }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.accessToken.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ accessTokenRef.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.accessToken.updatedDate">Updated Date</span></dt>
+          <dd>
+            <span>{{ accessTokenRef.updatedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.accessToken.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'centralizedAuthenticationProviderApp.TokenStatus.' + (accessTokenRef.status ?? 'null')">{{
+              { null: '', ACTIVE: 'ACTIVE', EXPIRED: 'EXPIRED', REVOKED: 'REVOKED', INACTIVE: 'INACTIVE', USED: 'USED' }[
+                accessTokenRef.status ?? 'null'
+              ]
+            }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/access-token', accessTokenRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>
