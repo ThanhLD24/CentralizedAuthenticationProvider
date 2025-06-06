@@ -8,7 +8,9 @@
       "entities": {
         "main": "Entities",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
-        "adminAuthority": "Authority"
+        "transaction": "Transaction",
+        "applicationSystem": "Application System",
+        "accessToken": "Access Token"
       },
       "account": {
         "main": "Account",

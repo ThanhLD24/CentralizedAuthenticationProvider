@@ -5,7 +5,8 @@ import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SecurityMetersService {
+public class
+SecurityMetersService {
 
     public static final String INVALID_TOKENS_METER_NAME = "security.authentication.invalid-tokens";
     public static final String INVALID_TOKENS_METER_DESCRIPTION =
