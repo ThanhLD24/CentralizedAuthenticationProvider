@@ -210,6 +210,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.36</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <!-- Adding the engine dependency to the surefire-plugin unfortunately does not work in the current version. -->
             <!-- https://www.archunit.org/userguide/html/000_Index.html#_junit_5 -->
             <groupId>com.tngtech.archunit</groupId>
@@ -490,6 +496,7 @@
                             </path>
                             <path>
                                 <groupId>org.mapstruct</groupId>
+
                                 <artifactId>mapstruct-processor</artifactId>
                                 <version>${mapstruct.version}</version>
                             </path>
@@ -501,6 +508,11 @@
                                 <groupId>org.glassfish.jaxb</groupId>
                                 <artifactId>jaxb-runtime</artifactId>
                             </path>
+                          <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.36</version>
+                          </path>
                         </annotationProcessorPaths>
                     </configuration>
                 </plugin>

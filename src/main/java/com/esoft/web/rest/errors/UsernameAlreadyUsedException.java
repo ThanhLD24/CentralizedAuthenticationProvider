@@ -1,4 +1,4 @@
-package com.esoft.service;
+package com.esoft.web.rest.errors;
 
 public class UsernameAlreadyUsedException extends RuntimeException {
 

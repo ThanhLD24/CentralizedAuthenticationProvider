@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.esoft.IntegrationTest;
 import com.esoft.domain.User;
 import com.esoft.repository.UserRepository;
-import com.esoft.web.rest.vm.LoginVM;
+import com.esoft.web.rest.dto.vm.LoginVM;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +23,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Integration tests for the {@link AuthenticateController} REST controller.
+ * Integration tests for the {@link LoginResource} REST controller.
  */
 @AutoConfigureMockMvc
 @IntegrationTest
-class AuthenticateControllerIT {
+class LoginResourceIT {
 
     @Autowired
     private ObjectMapper om;

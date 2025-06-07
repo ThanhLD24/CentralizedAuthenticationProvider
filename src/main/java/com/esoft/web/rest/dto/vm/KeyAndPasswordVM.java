@@ -1,4 +1,4 @@
-package com.esoft.web.rest.vm;
+package com.esoft.web.rest.dto.vm;
 
 /**
  * View Model object for storing the user's key and password.

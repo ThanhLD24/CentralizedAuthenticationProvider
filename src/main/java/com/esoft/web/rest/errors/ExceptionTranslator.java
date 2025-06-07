@@ -86,11 +86,11 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
     }
 
     private ProblemDetailWithCause getProblemDetailWithCause(Throwable ex) {
-        if (ex instanceof com.esoft.service.UsernameAlreadyUsedException) return (ProblemDetailWithCause) new LoginAlreadyUsedException()
+        if (ex instanceof UsernameAlreadyUsedException) return (ProblemDetailWithCause) new LoginAlreadyUsedException()
             .getBody();
-        if (ex instanceof com.esoft.service.EmailAlreadyUsedException) return (ProblemDetailWithCause) new EmailAlreadyUsedException()
+        if (ex instanceof EmailAlreadyUsedException) return (ProblemDetailWithCause) new EmailAlreadyUsedException()
             .getBody();
-        if (ex instanceof com.esoft.service.InvalidPasswordException) return (ProblemDetailWithCause) new InvalidPasswordException()
+        if (ex instanceof InvalidPasswordException) return (ProblemDetailWithCause) new InvalidPasswordException()
             .getBody();
 
         if (

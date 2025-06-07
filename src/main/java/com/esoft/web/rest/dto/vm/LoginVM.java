@@ -1,4 +1,4 @@
-package com.esoft.web.rest.vm;
+package com.esoft.web.rest.dto.vm;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

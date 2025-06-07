@@ -4,7 +4,7 @@ import com.esoft.config.SecurityConfiguration;
 import com.esoft.config.SecurityJwtConfiguration;
 import com.esoft.config.WebConfigurer;
 import com.esoft.management.SecurityMetersService;
-import com.esoft.web.rest.AuthenticateController;
+import com.esoft.web.rest.LoginResource;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -25,7 +25,7 @@ import tech.jhipster.config.JHipsterProperties;
         SecurityConfiguration.class,
         SecurityJwtConfiguration.class,
         SecurityMetersService.class,
-        AuthenticateController.class,
+        LoginResource.class,
         JwtAuthenticationTestUtils.class,
     }
 )
