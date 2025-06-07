@@ -351,7 +351,7 @@ class TransactionResourceIT {
 
         partialUpdatedTransaction
             .action(UPDATED_ACTION)
-            .status(UPDATED_STATUS)
+            .message(UPDATED_MESSAGE)
             .deviceInfo(UPDATED_DEVICE_INFO)
             .createdDate(UPDATED_CREATED_DATE);
 

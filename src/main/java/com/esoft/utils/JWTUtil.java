@@ -2,6 +2,7 @@ package com.esoft.utils;
 
 import com.esoft.security.DomainUserDetailsService;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Base64;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.esoft.security.SecurityUtils.*;
@@ -20,11 +23,18 @@ import static com.esoft.security.SecurityUtils.*;
 @Component
 public class JWTUtil {
 
+    @Getter
     @Value("${jhipster.security.authentication.jwt.token-validity-in-seconds:0}")
     private long tokenValidityInSeconds;
 
+    @Getter
     @Value("${jhipster.security.authentication.jwt.token-validity-in-seconds-for-remember-me:0}")
     private long tokenValidityInSecondsForRememberMe;
+
+    // get Refresh Token Validity in Seconds
+    @Getter
+    @Value("${application.refresh-token-validity-in-seconds:0}")
+    private long refreshTokenValidityInSeconds;
 
     private final JwtEncoder jwtEncoder;
     public JWTUtil(JwtEncoder jwtEncoder) {
@@ -56,4 +66,23 @@ public class JWTUtil {
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, builder.build())).getTokenValue();
     }
 
+    // Create a refresh token from random uuid
+
+    public String createRefreshToken() {
+        UUID uuid = UUID.randomUUID();
+        Instant expiryDate = Instant.now().plusMillis(refreshTokenValidityInSeconds);
+        long timestamp = expiryDate.toEpochMilli();
+        String rawToken = uuid + ":" + timestamp;
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(rawToken.getBytes());
+    }
+
+    public String hashToken(String token) {
+        try {
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(token.getBytes());
+            return Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error hashing token", e);
+        }
+    }
 }

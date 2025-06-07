@@ -1,5 +1,7 @@
 package com.esoft.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -13,13 +15,17 @@ public class ApplicationProperties {
 
     private final Liquibase liquibase = new Liquibase();
 
-    // jhipster-needle-application-properties-property
+    @Getter
+    @Setter
+    private Long refreshTokenValidityInSeconds = 2592000L; // 30 days in seconds
+
 
     public Liquibase getLiquibase() {
         return liquibase;
     }
 
-    // jhipster-needle-application-properties-property-getter
+
+
 
     public static class Liquibase {
 

@@ -306,6 +306,12 @@ class AccessTokenResourceIT {
         AccessToken partialUpdatedAccessToken = new AccessToken();
         partialUpdatedAccessToken.setId(accessToken.getId());
 
+        partialUpdatedAccessToken
+            .hashedToken(UPDATED_HASHED_TOKEN)
+            .createdDate(UPDATED_CREATED_DATE)
+            .updatedDate(UPDATED_UPDATED_DATE)
+            .status(UPDATED_STATUS);
+
         restAccessTokenMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedAccessToken.getId())
