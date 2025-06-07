@@ -10,7 +10,9 @@
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
         "transaction": "Transaction",
         "applicationSystem": "Application System",
-        "accessToken": "Access Token"
+        "accessToken": "Access Token",
+        "adminAuthority": "Authority"
+
       },
       "account": {
         "main": "Tài khoản",
