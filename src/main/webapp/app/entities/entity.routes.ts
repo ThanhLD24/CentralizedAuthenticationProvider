@@ -15,12 +15,7 @@ const routes: Routes = [
     path: 'application-system',
     data: { pageTitle: 'centralizedAuthenticationProviderApp.applicationSystem.home.title' },
     loadChildren: () => import('./application-system/application-system.routes'),
-  },
-  {
-    path: 'access-token',
-    data: { pageTitle: 'centralizedAuthenticationProviderApp.accessToken.home.title' },
-    loadChildren: () => import('./access-token/access-token.routes'),
-  },
+  }
   /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
 ];
 

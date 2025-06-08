@@ -1,0 +1,27 @@
+{
+  "centralizedAuthenticationProviderApp": {
+    "tokenHistory": {
+      "home": {
+        "title": "Token Histories",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Token History",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Token History",
+        "notFound": "No Token Historys found"
+      },
+      "created": "Một Token History mới được tạo với định danh {{ param }}",
+      "updated": "Một Token History cập nhật với định danh {{ param }}",
+      "deleted": "Một Token History đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Token History {{ id }}?"
+      },
+      "detail": {
+        "title": "Token History"
+      },
+      "id": "ID",
+      "hashedToken": "Hashed Token",
+      "createdDate": "Created Date",
+      "updatedDate": "Updated Date",
+      "status": "Status"
+    }
+  }
+}

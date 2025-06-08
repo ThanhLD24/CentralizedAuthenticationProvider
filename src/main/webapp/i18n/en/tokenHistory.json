@@ -1,0 +1,27 @@
+{
+  "centralizedAuthenticationProviderApp": {
+    "tokenHistory": {
+      "home": {
+        "title": "Token Histories",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Token History",
+        "createOrEditLabel": "Create or edit a Token History",
+        "notFound": "No Token Historys found"
+      },
+      "created": "A new Token History is created with identifier {{ param }}",
+      "updated": "A Token History is updated with identifier {{ param }}",
+      "deleted": "A Token History is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Token History {{ id }}?"
+      },
+      "detail": {
+        "title": "Token History"
+      },
+      "id": "ID",
+      "hashedToken": "Hashed Token",
+      "createdDate": "Created Date",
+      "updatedDate": "Updated Date",
+      "status": "Status"
+    }
+  }
+}

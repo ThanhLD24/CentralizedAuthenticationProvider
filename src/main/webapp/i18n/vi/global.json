@@ -10,7 +10,7 @@
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
         "transaction": "Transaction",
         "applicationSystem": "Application System",
-        "accessToken": "Access Token",
+        "tokenHistory": "Token History",
         "adminAuthority": "Authority"
 
       },

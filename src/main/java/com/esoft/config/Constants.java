@@ -12,4 +12,14 @@ public final class Constants {
     public static final String DEFAULT_LANGUAGE = "en";
 
     private Constants() {}
+
+    public interface AUTH_MESSAGE {
+        String INVALID_CREDENTIALS = "Invalid credentials";
+        String TOKEN_VALID = "Token valid";
+        String TOKEN_EXPIRED = "Token expired";
+        String TOKEN_INVALID = "Token invalid";
+        String TOKEN_REVOKED = "Token revoked";
+        String TOKEN_NOT_FOUND = "Token not found";
+        String ACCESS_DENIED = "Access denied";
+    }
 }

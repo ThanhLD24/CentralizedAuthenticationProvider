@@ -6,10 +6,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.jwt.JwsHeader;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -37,8 +34,10 @@ public class JWTUtil {
     private long refreshTokenValidityInSeconds;
 
     private final JwtEncoder jwtEncoder;
-    public JWTUtil(JwtEncoder jwtEncoder) {
+    private final JwtDecoder jwtDecoder;
+    public JWTUtil(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
         this.jwtEncoder = jwtEncoder;
+        this.jwtDecoder = jwtDecoder;
     }
 
     public String createToken(Authentication authentication, boolean rememberMe) {
@@ -66,7 +65,16 @@ public class JWTUtil {
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, builder.build())).getTokenValue();
     }
 
-    // Create a refresh token from random uuid
+    public boolean validateAccessToken(String token) {
+        try {
+            Jwt jwt = this.jwtDecoder.decode(token);
+            Instant now = Instant.now();
+            return jwt.getExpiresAt() != null && now.isBefore(jwt.getExpiresAt());
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+
 
     public String createRefreshToken() {
         UUID uuid = UUID.randomUUID();

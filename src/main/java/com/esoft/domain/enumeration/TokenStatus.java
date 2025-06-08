@@ -8,5 +8,5 @@ public enum TokenStatus {
     EXPIRED,
     REVOKED,
     INACTIVE,
-    USED,
+    USED
 }

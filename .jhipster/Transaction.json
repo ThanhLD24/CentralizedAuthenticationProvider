@@ -23,6 +23,18 @@
     {
       "fieldName": "createdDate",
       "fieldType": "Instant"
+    },
+    {
+      "fieldName": "clientIp",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "requestPath",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "requestMethod",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": false,

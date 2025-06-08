@@ -13,7 +13,7 @@
     "devDatabaseType": "mariadb",
     "enableHibernateCache": true,
     "enableTranslation": true,
-    "entities": ["Transaction", "ApplicationSystem", "AccessToken"],
+    "entities": ["Transaction", "ApplicationSystem", "TokenHistory"],
     "feignClient": null,
     "jhipsterVersion": "8.11.0",
     "jwtSecretKey": "ZjFjZDVhY2Y2M2M3ODM4NmZmZWVhYmYyMTJjMTE1N2JmMGNmZGZlM2Y2MWRjNjU1ZjkxMGRiZDdmNTU3NWQ4MmMyZTE3MjFhM2MwNTY1Njc4M2U5YmE3ZTU2ZmVmYjE0ZTI0MDY1NGYwNjUzZjljNGQ0NGYyNjMzZjRjMmFkNWE=",

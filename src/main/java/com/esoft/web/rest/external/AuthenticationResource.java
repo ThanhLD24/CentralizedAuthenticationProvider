@@ -3,18 +3,13 @@ package com.esoft.web.rest.external;
 import com.esoft.service.AuthenticationService;
 import com.esoft.service.dto.AuthorizationDTO;
 import com.esoft.web.rest.LoginResource;
-import com.esoft.web.rest.dto.ApiResponse;
-import com.esoft.web.rest.dto.AuthRequest;
-import com.esoft.web.rest.dto.RefreshTokenRequest;
-import com.esoft.web.rest.dto.ResponseStatus;
+import com.esoft.web.rest.dto.*;
 import com.esoft.service.dto.TokenResponseDTO;
+import com.esoft.web.rest.dto.ResponseStatus;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,27 +17,15 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationResource {
     private static final Logger LOG = LoggerFactory.getLogger(LoginResource.class);
 
-    private final JwtEncoder jwtEncoder;
-
-    @Value("${jhipster.security.authentication.jwt.token-validity-in-seconds:0}")
-    private long tokenValidityInSeconds;
-
-    @Value("${jhipster.security.authentication.jwt.token-validity-in-seconds-for-remember-me:0}")
-    private long tokenValidityInSecondsForRememberMe;
-
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-    // inject authentication service
     private final AuthenticationService authService;
-    public AuthenticationResource(JwtEncoder jwtEncoder, AuthenticationManagerBuilder authenticationManagerBuilder, AuthenticationService authService) {
-        this.jwtEncoder = jwtEncoder;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
+    public AuthenticationResource(AuthenticationService authService) {
         this.authService = authService;
     }
 
     @PostMapping("/token")
     public ResponseEntity<ApiResponse<TokenResponseDTO>> getToken(@Valid @RequestBody AuthRequest request) {
         TokenResponseDTO tokenResponseDTO = authService.getToken(request.getUsername(), request.getPassword());
+
         return ResponseEntity.ok(
             ApiResponse.<TokenResponseDTO>builder()
                 .status(ResponseStatus.SUCCESS)

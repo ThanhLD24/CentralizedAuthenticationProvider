@@ -7,8 +7,7 @@ public interface AuthenticationService {
 
     TokenResponseDTO getToken(String username, String password);
 
-
-    boolean revokeToken(String token);
+    void revokeToken(String token);
 
     AuthorizationDTO validateToken(String token);
 
