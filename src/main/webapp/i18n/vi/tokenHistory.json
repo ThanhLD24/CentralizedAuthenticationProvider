@@ -6,7 +6,7 @@
         "refreshListLabel": "Refresh list",
         "createLabel": "Thêm mới một Token History",
         "createOrEditLabel": "Thêm mới hoặc cập nhật Token History",
-        "notFound": "No Token Historys found"
+        "notFound": "No Token Histories found"
       },
       "created": "Một Token History mới được tạo với định danh {{ param }}",
       "updated": "Một Token History cập nhật với định danh {{ param }}",

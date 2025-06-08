@@ -38,8 +38,14 @@ public class Transaction implements Serializable {
     @Column(name = "created_date")
     private Instant createdDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    @Column(name = "client_ip")
+    private String clientIp;
+
+    @Column(name = "request_path")
+    private String requestPath;
+
+    @Column(name = "request_method")
+    private String requestMethod;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -121,17 +127,43 @@ public class Transaction implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public User getUser() {
-        return this.user;
+    public String getClientIp() {
+        return this.clientIp;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Transaction user(User user) {
-        this.setUser(user);
+    public Transaction clientIp(String clientIp) {
+        this.setClientIp(clientIp);
         return this;
+    }
+
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
+    }
+
+    public String getRequestPath() {
+        return this.requestPath;
+    }
+
+    public Transaction requestPath(String requestPath) {
+        this.setRequestPath(requestPath);
+        return this;
+    }
+
+    public void setRequestPath(String requestPath) {
+        this.requestPath = requestPath;
+    }
+
+    public String getRequestMethod() {
+        return this.requestMethod;
+    }
+
+    public Transaction requestMethod(String requestMethod) {
+        this.setRequestMethod(requestMethod);
+        return this;
+    }
+
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -163,6 +195,9 @@ public class Transaction implements Serializable {
             ", message='" + getMessage() + "'" +
             ", deviceInfo='" + getDeviceInfo() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
+            ", clientIp='" + getClientIp() + "'" +
+            ", requestPath='" + getRequestPath() + "'" +
+            ", requestMethod='" + getRequestMethod() + "'" +
             "}";
     }
 }

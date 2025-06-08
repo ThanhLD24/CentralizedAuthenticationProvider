@@ -2,13 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { IUser } from 'app/entities/user/user.model';
-import { UserService } from 'app/entities/user/service/user.service';
 import { ITransaction } from '../transaction.model';
 import { TransactionService } from '../service/transaction.service';
 import { TransactionFormGroup, TransactionFormService } from './transaction-form.service';
@@ -22,17 +20,12 @@ export class TransactionUpdateComponent implements OnInit {
   isSaving = false;
   transaction: ITransaction | null = null;
 
-  usersSharedCollection: IUser[] = [];
-
   protected transactionService = inject(TransactionService);
   protected transactionFormService = inject(TransactionFormService);
-  protected userService = inject(UserService);
   protected activatedRoute = inject(ActivatedRoute);
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
   editForm: TransactionFormGroup = this.transactionFormService.createTransactionFormGroup();
-
-  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ transaction }) => {
@@ -40,8 +33,6 @@ export class TransactionUpdateComponent implements OnInit {
       if (transaction) {
         this.updateForm(transaction);
       }
-
-      this.loadRelationshipsOptions();
     });
   }
 
@@ -81,15 +72,5 @@ export class TransactionUpdateComponent implements OnInit {
   protected updateForm(transaction: ITransaction): void {
     this.transaction = transaction;
     this.transactionFormService.resetForm(this.editForm, transaction);
-
-    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, transaction.user);
-  }
-
-  protected loadRelationshipsOptions(): void {
-    this.userService
-      .query()
-      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
-      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.transaction?.user)))
-      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 }

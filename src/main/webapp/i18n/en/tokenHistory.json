@@ -6,7 +6,7 @@
         "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Token History",
         "createOrEditLabel": "Create or edit a Token History",
-        "notFound": "No Token Historys found"
+        "notFound": "No Token Histories found"
       },
       "created": "A new Token History is created with identifier {{ param }}",
       "updated": "A Token History is updated with identifier {{ param }}",

@@ -69,15 +69,11 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findAll(pageable).map(transactionMapper::toDto);
     }
 
-    public Page<TransactionDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return transactionRepository.findAllWithEagerRelationships(pageable).map(transactionMapper::toDto);
-    }
-
     @Override
     @Transactional(readOnly = true)
     public Optional<TransactionDTO> findOne(Long id) {
         LOG.debug("Request to get Transaction : {}", id);
-        return transactionRepository.findOneWithEagerRelationships(id).map(transactionMapper::toDto);
+        return transactionRepository.findById(id).map(transactionMapper::toDto);
     }
 
     @Override

@@ -22,7 +22,11 @@ public class TransactionDTO implements Serializable {
 
     private Instant createdDate;
 
-    private UserDTO user;
+    private String clientIp;
+
+    private String requestPath;
+
+    private String requestMethod;
 
     public Long getId() {
         return id;
@@ -72,12 +76,28 @@ public class TransactionDTO implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public String getClientIp() {
+        return clientIp;
     }
 
-    public void setUser(UserDTO user) {
-        this.user = user;
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
+    }
+
+    public String getRequestPath() {
+        return requestPath;
+    }
+
+    public void setRequestPath(String requestPath) {
+        this.requestPath = requestPath;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
     }
 
     @Override
@@ -111,7 +131,9 @@ public class TransactionDTO implements Serializable {
             ", message='" + getMessage() + "'" +
             ", deviceInfo='" + getDeviceInfo() + "'" +
             ", createdDate='" + getCreatedDate() + "'" +
-            ", user=" + getUser() +
+            ", clientIp='" + getClientIp() + "'" +
+            ", requestPath='" + getRequestPath() + "'" +
+            ", requestMethod='" + getRequestMethod() + "'" +
             "}";
     }
 }

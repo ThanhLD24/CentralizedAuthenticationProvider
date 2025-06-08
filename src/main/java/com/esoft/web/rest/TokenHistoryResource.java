@@ -26,7 +26,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.esoft.domain.TokenHistory}.
  */
 @RestController
-@RequestMapping("/api/token-historys")
+@RequestMapping("/api/token-histories")
 public class TokenHistoryResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(TokenHistoryResource.class);
@@ -46,7 +46,7 @@ public class TokenHistoryResource {
     }
 
     /**
-     * {@code POST  /token-historys} : Create a new tokenHistory.
+     * {@code POST  /token-histories} : Create a new tokenHistory.
      *
      * @param tokenHistoryDTO the tokenHistoryDTO to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new tokenHistoryDTO, or with status {@code 400 (Bad Request)} if the tokenHistory has already an ID.
@@ -59,13 +59,13 @@ public class TokenHistoryResource {
             throw new BadRequestAlertException("A new tokenHistory cannot already have an ID", ENTITY_NAME, "idexists");
         }
         tokenHistoryDTO = tokenHistoryService.save(tokenHistoryDTO);
-        return ResponseEntity.created(new URI("/api/token-historys/" + tokenHistoryDTO.getId()))
+        return ResponseEntity.created(new URI("/api/token-histories/" + tokenHistoryDTO.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, tokenHistoryDTO.getId().toString()))
             .body(tokenHistoryDTO);
     }
 
     /**
-     * {@code PUT  /token-historys/:id} : Updates an existing tokenHistory.
+     * {@code PUT  /token-histories/:id} : Updates an existing tokenHistory.
      *
      * @param id the id of the tokenHistoryDTO to save.
      * @param tokenHistoryDTO the tokenHistoryDTO to update.
@@ -98,7 +98,7 @@ public class TokenHistoryResource {
     }
 
     /**
-     * {@code PATCH  /token-historys/:id} : Partial updates given fields of an existing tokenHistory, field will ignore if it is null
+     * {@code PATCH  /token-histories/:id} : Partial updates given fields of an existing tokenHistory, field will ignore if it is null
      *
      * @param id the id of the tokenHistoryDTO to save.
      * @param tokenHistoryDTO the tokenHistoryDTO to update.
@@ -134,21 +134,21 @@ public class TokenHistoryResource {
     }
 
     /**
-     * {@code GET  /token-historys} : get all the tokenHistorys.
+     * {@code GET  /token-histories} : get all the tokenHistories.
      *
      * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of tokenHistorys in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of tokenHistories in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<TokenHistoryDTO>> getAllTokenHistorys(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
-        LOG.debug("REST request to get a page of TokenHistorys");
+    public ResponseEntity<List<TokenHistoryDTO>> getAllTokenHistories(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+        LOG.debug("REST request to get a page of TokenHistories");
         Page<TokenHistoryDTO> page = tokenHistoryService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
-     * {@code GET  /token-historys/:id} : get the "id" tokenHistory.
+     * {@code GET  /token-histories/:id} : get the "id" tokenHistory.
      *
      * @param id the id of the tokenHistoryDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the tokenHistoryDTO, or with status {@code 404 (Not Found)}.
@@ -161,7 +161,7 @@ public class TokenHistoryResource {
     }
 
     /**
-     * {@code DELETE  /token-historys/:id} : delete the "id" tokenHistory.
+     * {@code DELETE  /token-histories/:id} : delete the "id" tokenHistory.
      *
      * @param id the id of the tokenHistoryDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.

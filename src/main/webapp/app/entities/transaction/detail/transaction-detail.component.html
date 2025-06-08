@@ -37,9 +37,17 @@
           <dd>
             <span>{{ transactionRef.createdDate | formatMediumDatetime }}</span>
           </dd>
-          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.transaction.user">User</span></dt>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.transaction.clientIp">Client Ip</span></dt>
           <dd>
-            <span>{{ transactionRef.user?.login }}</span>
+            <span>{{ transactionRef.clientIp }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.transaction.requestPath">Request Path</span></dt>
+          <dd>
+            <span>{{ transactionRef.requestPath }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.transaction.requestMethod">Request Method</span></dt>
+          <dd>
+            <span>{{ transactionRef.requestMethod }}</span>
           </dd>
         </dl>
 

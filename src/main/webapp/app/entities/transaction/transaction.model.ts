@@ -1,5 +1,4 @@
 import dayjs from 'dayjs/esm';
-import { IUser } from 'app/entities/user/user.model';
 
 export interface ITransaction {
   id: number;
@@ -8,7 +7,9 @@ export interface ITransaction {
   message?: string | null;
   deviceInfo?: string | null;
   createdDate?: dayjs.Dayjs | null;
-  user?: Pick<IUser, 'id' | 'login'> | null;
+  clientIp?: string | null;
+  requestPath?: string | null;
+  requestMethod?: string | null;
 }
 
 export type NewTransaction = Omit<ITransaction, 'id'> & { id: null };

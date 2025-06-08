@@ -51,7 +51,10 @@ public class TransactionAsserts {
             .satisfies(a -> assertThat(a.getStatus()).as("check status").isEqualTo(expected.getStatus()))
             .satisfies(a -> assertThat(a.getMessage()).as("check message").isEqualTo(expected.getMessage()))
             .satisfies(a -> assertThat(a.getDeviceInfo()).as("check deviceInfo").isEqualTo(expected.getDeviceInfo()))
-            .satisfies(a -> assertThat(a.getCreatedDate()).as("check createdDate").isEqualTo(expected.getCreatedDate()));
+            .satisfies(a -> assertThat(a.getCreatedDate()).as("check createdDate").isEqualTo(expected.getCreatedDate()))
+            .satisfies(a -> assertThat(a.getClientIp()).as("check clientIp").isEqualTo(expected.getClientIp()))
+            .satisfies(a -> assertThat(a.getRequestPath()).as("check requestPath").isEqualTo(expected.getRequestPath()))
+            .satisfies(a -> assertThat(a.getRequestMethod()).as("check requestMethod").isEqualTo(expected.getRequestMethod()));
     }
 
     /**

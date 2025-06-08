@@ -49,7 +49,7 @@ class TokenHistoryResourceIT {
     private static final TokenStatus DEFAULT_STATUS = TokenStatus.ACTIVE;
     private static final TokenStatus UPDATED_STATUS = TokenStatus.EXPIRED;
 
-    private static final String ENTITY_API_URL = "/api/token-historys";
+    private static final String ENTITY_API_URL = "/api/token-histories";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
@@ -159,7 +159,7 @@ class TokenHistoryResourceIT {
 
     @Test
     @Transactional
-    void getAllTokenHistorys() throws Exception {
+    void getAllTokenHistories() throws Exception {
         // Initialize the database
         insertedTokenHistory = tokenHistoryRepository.saveAndFlush(tokenHistory);
 
@@ -306,11 +306,7 @@ class TokenHistoryResourceIT {
         TokenHistory partialUpdatedTokenHistory = new TokenHistory();
         partialUpdatedTokenHistory.setId(tokenHistory.getId());
 
-        partialUpdatedTokenHistory
-            .hashedToken(UPDATED_HASHED_TOKEN)
-            .createdDate(UPDATED_CREATED_DATE)
-            .updatedDate(UPDATED_UPDATED_DATE)
-            .status(UPDATED_STATUS);
+        partialUpdatedTokenHistory.hashedToken(UPDATED_HASHED_TOKEN).updatedDate(UPDATED_UPDATED_DATE);
 
         restTokenHistoryMockMvc
             .perform(

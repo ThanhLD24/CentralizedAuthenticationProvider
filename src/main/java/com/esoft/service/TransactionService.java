@@ -42,14 +42,6 @@ public interface TransactionService {
     Page<TransactionDTO> findAll(Pageable pageable);
 
     /**
-     * Get all the transactions with eager load of many-to-many relationships.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    Page<TransactionDTO> findAllWithEagerRelationships(Pageable pageable);
-
-    /**
      * Get the "id" transaction.
      *
      * @param id the id of the entity.

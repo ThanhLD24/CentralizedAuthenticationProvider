@@ -34,7 +34,7 @@ public interface TokenHistoryService {
     Optional<TokenHistoryDTO> partialUpdate(TokenHistoryDTO tokenHistoryDTO);
 
     /**
-     * Get all the tokenHistorys.
+     * Get all the tokenHistories.
      *
      * @param pageable the pagination information.
      * @return the list of entities.

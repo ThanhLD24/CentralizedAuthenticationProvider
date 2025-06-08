@@ -68,13 +68,38 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_user" jhiTranslate="centralizedAuthenticationProviderApp.transaction.user">User</label>
-          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
-            <option [ngValue]="null"></option>
-            @for (userOption of usersSharedCollection; track $index) {
-              <option [ngValue]="userOption">{{ userOption.login }}</option>
-            }
-          </select>
+          <label class="form-label" for="field_clientIp" jhiTranslate="centralizedAuthenticationProviderApp.transaction.clientIp"
+            >Client Ip</label
+          >
+          <input type="text" class="form-control" name="clientIp" id="field_clientIp" data-cy="clientIp" formControlName="clientIp" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_requestPath" jhiTranslate="centralizedAuthenticationProviderApp.transaction.requestPath"
+            >Request Path</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="requestPath"
+            id="field_requestPath"
+            data-cy="requestPath"
+            formControlName="requestPath"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_requestMethod" jhiTranslate="centralizedAuthenticationProviderApp.transaction.requestMethod"
+            >Request Method</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="requestMethod"
+            id="field_requestMethod"
+            data-cy="requestMethod"
+            formControlName="requestMethod"
+          />
         </div>
       </div>
 

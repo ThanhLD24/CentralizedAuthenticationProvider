@@ -137,21 +137,12 @@ public class TransactionResource {
      * {@code GET  /transactions} : get all the transactions.
      *
      * @param pageable the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of transactions in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<TransactionDTO>> getAllTransactions(
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
-    ) {
+    public ResponseEntity<List<TransactionDTO>> getAllTransactions(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         LOG.debug("REST request to get a page of Transactions");
-        Page<TransactionDTO> page;
-        if (eagerload) {
-            page = transactionService.findAllWithEagerRelationships(pageable);
-        } else {
-            page = transactionService.findAll(pageable);
-        }
+        Page<TransactionDTO> page = transactionService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

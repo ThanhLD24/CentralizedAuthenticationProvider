@@ -23,7 +23,9 @@
       "message": "Message",
       "deviceInfo": "Device Info",
       "createdDate": "Created Date",
-      "user": "User"
+      "clientIp": "Client Ip",
+      "requestPath": "Request Path",
+      "requestMethod": "Request Method"
     }
   }
 }

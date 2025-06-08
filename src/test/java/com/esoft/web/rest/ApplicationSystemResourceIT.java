@@ -349,7 +349,7 @@ class ApplicationSystemResourceIT {
         ApplicationSystem partialUpdatedApplicationSystem = new ApplicationSystem();
         partialUpdatedApplicationSystem.setId(applicationSystem.getId());
 
-        partialUpdatedApplicationSystem.name(UPDATED_NAME).createdDate(UPDATED_CREATED_DATE).active(UPDATED_ACTIVE);
+        partialUpdatedApplicationSystem.name(UPDATED_NAME).description(UPDATED_DESCRIPTION);
 
         restApplicationSystemMockMvc
             .perform(

@@ -25,7 +25,9 @@ describe('Transaction Form Service', () => {
             message: expect.any(Object),
             deviceInfo: expect.any(Object),
             createdDate: expect.any(Object),
-            user: expect.any(Object),
+            clientIp: expect.any(Object),
+            requestPath: expect.any(Object),
+            requestMethod: expect.any(Object),
           }),
         );
       });
@@ -41,7 +43,9 @@ describe('Transaction Form Service', () => {
             message: expect.any(Object),
             deviceInfo: expect.any(Object),
             createdDate: expect.any(Object),
-            user: expect.any(Object),
+            clientIp: expect.any(Object),
+            requestPath: expect.any(Object),
+            requestMethod: expect.any(Object),
           }),
         );
       });

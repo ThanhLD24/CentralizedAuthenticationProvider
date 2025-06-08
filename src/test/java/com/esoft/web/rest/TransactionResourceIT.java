@@ -4,34 +4,25 @@ import static com.esoft.domain.TransactionAsserts.*;
 import static com.esoft.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.esoft.IntegrationTest;
 import com.esoft.domain.Transaction;
 import com.esoft.repository.TransactionRepository;
-import com.esoft.repository.UserRepository;
-import com.esoft.service.TransactionService;
 import com.esoft.service.dto.TransactionDTO;
 import com.esoft.service.mapper.TransactionMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -41,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link TransactionResource} REST controller.
  */
 @IntegrationTest
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class TransactionResourceIT {
@@ -61,6 +51,15 @@ class TransactionResourceIT {
     private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final String DEFAULT_CLIENT_IP = "AAAAAAAAAA";
+    private static final String UPDATED_CLIENT_IP = "BBBBBBBBBB";
+
+    private static final String DEFAULT_REQUEST_PATH = "AAAAAAAAAA";
+    private static final String UPDATED_REQUEST_PATH = "BBBBBBBBBB";
+
+    private static final String DEFAULT_REQUEST_METHOD = "AAAAAAAAAA";
+    private static final String UPDATED_REQUEST_METHOD = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/transactions";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -74,16 +73,7 @@ class TransactionResourceIT {
     private TransactionRepository transactionRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Mock
-    private TransactionRepository transactionRepositoryMock;
-
-    @Autowired
     private TransactionMapper transactionMapper;
-
-    @Mock
-    private TransactionService transactionServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -107,7 +97,10 @@ class TransactionResourceIT {
             .status(DEFAULT_STATUS)
             .message(DEFAULT_MESSAGE)
             .deviceInfo(DEFAULT_DEVICE_INFO)
-            .createdDate(DEFAULT_CREATED_DATE);
+            .createdDate(DEFAULT_CREATED_DATE)
+            .clientIp(DEFAULT_CLIENT_IP)
+            .requestPath(DEFAULT_REQUEST_PATH)
+            .requestMethod(DEFAULT_REQUEST_METHOD);
     }
 
     /**
@@ -122,7 +115,10 @@ class TransactionResourceIT {
             .status(UPDATED_STATUS)
             .message(UPDATED_MESSAGE)
             .deviceInfo(UPDATED_DEVICE_INFO)
-            .createdDate(UPDATED_CREATED_DATE);
+            .createdDate(UPDATED_CREATED_DATE)
+            .clientIp(UPDATED_CLIENT_IP)
+            .requestPath(UPDATED_REQUEST_PATH)
+            .requestMethod(UPDATED_REQUEST_METHOD);
     }
 
     @BeforeEach
@@ -196,24 +192,10 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)))
             .andExpect(jsonPath("$.[*].message").value(hasItem(DEFAULT_MESSAGE)))
             .andExpect(jsonPath("$.[*].deviceInfo").value(hasItem(DEFAULT_DEVICE_INFO)))
-            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())));
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllTransactionsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(transactionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restTransactionMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
-
-        verify(transactionServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllTransactionsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(transactionServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restTransactionMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
-        verify(transactionRepositoryMock, times(1)).findAll(any(Pageable.class));
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].clientIp").value(hasItem(DEFAULT_CLIENT_IP)))
+            .andExpect(jsonPath("$.[*].requestPath").value(hasItem(DEFAULT_REQUEST_PATH)))
+            .andExpect(jsonPath("$.[*].requestMethod").value(hasItem(DEFAULT_REQUEST_METHOD)));
     }
 
     @Test
@@ -232,7 +214,10 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS))
             .andExpect(jsonPath("$.message").value(DEFAULT_MESSAGE))
             .andExpect(jsonPath("$.deviceInfo").value(DEFAULT_DEVICE_INFO))
-            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()));
+            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
+            .andExpect(jsonPath("$.clientIp").value(DEFAULT_CLIENT_IP))
+            .andExpect(jsonPath("$.requestPath").value(DEFAULT_REQUEST_PATH))
+            .andExpect(jsonPath("$.requestMethod").value(DEFAULT_REQUEST_METHOD));
     }
 
     @Test
@@ -259,7 +244,10 @@ class TransactionResourceIT {
             .status(UPDATED_STATUS)
             .message(UPDATED_MESSAGE)
             .deviceInfo(UPDATED_DEVICE_INFO)
-            .createdDate(UPDATED_CREATED_DATE);
+            .createdDate(UPDATED_CREATED_DATE)
+            .clientIp(UPDATED_CLIENT_IP)
+            .requestPath(UPDATED_REQUEST_PATH)
+            .requestMethod(UPDATED_REQUEST_METHOD);
         TransactionDTO transactionDTO = transactionMapper.toDto(updatedTransaction);
 
         restTransactionMockMvc
@@ -351,9 +339,9 @@ class TransactionResourceIT {
 
         partialUpdatedTransaction
             .action(UPDATED_ACTION)
-            .message(UPDATED_MESSAGE)
-            .deviceInfo(UPDATED_DEVICE_INFO)
-            .createdDate(UPDATED_CREATED_DATE);
+            .status(UPDATED_STATUS)
+            .clientIp(UPDATED_CLIENT_IP)
+            .requestMethod(UPDATED_REQUEST_METHOD);
 
         restTransactionMockMvc
             .perform(
@@ -389,7 +377,10 @@ class TransactionResourceIT {
             .status(UPDATED_STATUS)
             .message(UPDATED_MESSAGE)
             .deviceInfo(UPDATED_DEVICE_INFO)
-            .createdDate(UPDATED_CREATED_DATE);
+            .createdDate(UPDATED_CREATED_DATE)
+            .clientIp(UPDATED_CLIENT_IP)
+            .requestPath(UPDATED_REQUEST_PATH)
+            .requestMethod(UPDATED_REQUEST_METHOD);
 
         restTransactionMockMvc
             .perform(

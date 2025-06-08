@@ -65,7 +65,7 @@ public class TokenHistoryServiceImpl implements TokenHistoryService {
     @Override
     @Transactional(readOnly = true)
     public Page<TokenHistoryDTO> findAll(Pageable pageable) {
-        LOG.debug("Request to get all TokenHistorys");
+        LOG.debug("Request to get all TokenHistories");
         return tokenHistoryRepository.findAll(pageable).map(tokenHistoryMapper::toDto);
     }
 

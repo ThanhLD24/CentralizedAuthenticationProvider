@@ -59,11 +59,11 @@ public class TokenHistoryGatlingTest extends Simulation {
         .pause(10)
         .repeat(2)
         .on(
-            exec(http("Get all tokenHistorys").get("/api/token-historys").headers(headersHttpAuthenticated).check(status().is(200)))
+            exec(http("Get all tokenHistories").get("/api/token-histories").headers(headersHttpAuthenticated).check(status().is(200)))
                 .pause(Duration.ofSeconds(10), Duration.ofSeconds(20))
                 .exec(
                     http("Create new tokenHistory")
-                        .post("/api/token-historys")
+                        .post("/api/token-histories")
                         .headers(headersHttpAuthenticated)
                         .body(
                             StringBody(

@@ -73,6 +73,9 @@ public class TransactionGatlingTest extends Simulation {
                                 ", \"message\": \"SAMPLE_TEXT\"" +
                                 ", \"deviceInfo\": \"SAMPLE_TEXT\"" +
                                 ", \"createdDate\": \"2020-01-01T00:00:00.000Z\"" +
+                                ", \"clientIp\": \"SAMPLE_TEXT\"" +
+                                ", \"requestPath\": \"SAMPLE_TEXT\"" +
+                                ", \"requestMethod\": \"SAMPLE_TEXT\"" +
                                 "}"
                             )
                         )

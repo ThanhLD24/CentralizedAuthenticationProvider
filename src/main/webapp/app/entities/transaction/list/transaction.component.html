@@ -75,9 +75,24 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="user.login">
+            <th scope="col" jhiSortBy="clientIp">
               <div class="d-flex">
-                <span jhiTranslate="centralizedAuthenticationProviderApp.transaction.user">User</span>
+                <span jhiTranslate="centralizedAuthenticationProviderApp.transaction.clientIp">Client Ip</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="requestPath">
+              <div class="d-flex">
+                <span jhiTranslate="centralizedAuthenticationProviderApp.transaction.requestPath">Request Path</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="requestMethod">
+              <div class="d-flex">
+                <span jhiTranslate="centralizedAuthenticationProviderApp.transaction.requestMethod">Request Method</span>
+
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
@@ -95,9 +110,9 @@
               <td>{{ transaction.message }}</td>
               <td>{{ transaction.deviceInfo }}</td>
               <td>{{ transaction.createdDate | formatMediumDatetime }}</td>
-              <td>
-                {{ transaction.user?.login }}
-              </td>
+              <td>{{ transaction.clientIp }}</td>
+              <td>{{ transaction.requestPath }}</td>
+              <td>{{ transaction.requestMethod }}</td>
               <td class="text-end">
                 <div class="btn-group">
                   <a [routerLink]="['/transaction', transaction.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

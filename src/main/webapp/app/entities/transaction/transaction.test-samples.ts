@@ -7,10 +7,10 @@ export const sampleWithRequiredData: ITransaction = {
 };
 
 export const sampleWithPartialData: ITransaction = {
-  id: 26480,
-  status: 19830,
-  deviceInfo: 'angelic polished emulsify',
-  createdDate: dayjs('2025-06-05T20:37'),
+  id: 16813,
+  status: 15952,
+  deviceInfo: 'endow made-up',
+  createdDate: dayjs('2025-06-06T08:24'),
 };
 
 export const sampleWithFullData: ITransaction = {
@@ -20,6 +20,9 @@ export const sampleWithFullData: ITransaction = {
   message: 'kissingly',
   deviceInfo: 'talkative',
   createdDate: dayjs('2025-06-05T19:29'),
+  clientIp: 'less',
+  requestPath: 'yawn unlike',
+  requestMethod: 'condense absentmindedly',
 };
 
 export const sampleWithNewData: NewTransaction = {
