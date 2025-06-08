@@ -96,6 +96,27 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="username">
+              <div class="d-flex">
+                <span jhiTranslate="centralizedAuthenticationProviderApp.transaction.username">Username</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="userId">
+              <div class="d-flex">
+                <span jhiTranslate="centralizedAuthenticationProviderApp.transaction.userId">User Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="duration">
+              <div class="d-flex">
+                <span jhiTranslate="centralizedAuthenticationProviderApp.transaction.duration">Duration</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -113,6 +134,9 @@
               <td>{{ transaction.clientIp }}</td>
               <td>{{ transaction.requestPath }}</td>
               <td>{{ transaction.requestMethod }}</td>
+              <td>{{ transaction.username }}</td>
+              <td>{{ transaction.userId }}</td>
+              <td>{{ transaction.duration }}</td>
               <td class="text-end">
                 <div class="btn-group">
                   <a [routerLink]="['/transaction', transaction.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

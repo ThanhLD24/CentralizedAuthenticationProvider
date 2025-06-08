@@ -35,6 +35,18 @@
     {
       "fieldName": "requestMethod",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "userId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "duration",
+      "fieldType": "Long"
     }
   ],
   "jpaMetamodelFiltering": false,

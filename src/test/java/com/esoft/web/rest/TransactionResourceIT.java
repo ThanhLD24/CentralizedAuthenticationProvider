@@ -60,6 +60,15 @@ class TransactionResourceIT {
     private static final String DEFAULT_REQUEST_METHOD = "AAAAAAAAAA";
     private static final String UPDATED_REQUEST_METHOD = "BBBBBBBBBB";
 
+    private static final String DEFAULT_USERNAME = "AAAAAAAAAA";
+    private static final String UPDATED_USERNAME = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_USER_ID = 1L;
+    private static final Long UPDATED_USER_ID = 2L;
+
+    private static final Long DEFAULT_DURATION = 1L;
+    private static final Long UPDATED_DURATION = 2L;
+
     private static final String ENTITY_API_URL = "/api/transactions";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -100,7 +109,10 @@ class TransactionResourceIT {
             .createdDate(DEFAULT_CREATED_DATE)
             .clientIp(DEFAULT_CLIENT_IP)
             .requestPath(DEFAULT_REQUEST_PATH)
-            .requestMethod(DEFAULT_REQUEST_METHOD);
+            .requestMethod(DEFAULT_REQUEST_METHOD)
+            .username(DEFAULT_USERNAME)
+            .userId(DEFAULT_USER_ID)
+            .duration(DEFAULT_DURATION);
     }
 
     /**
@@ -118,7 +130,10 @@ class TransactionResourceIT {
             .createdDate(UPDATED_CREATED_DATE)
             .clientIp(UPDATED_CLIENT_IP)
             .requestPath(UPDATED_REQUEST_PATH)
-            .requestMethod(UPDATED_REQUEST_METHOD);
+            .requestMethod(UPDATED_REQUEST_METHOD)
+            .username(UPDATED_USERNAME)
+            .userId(UPDATED_USER_ID)
+            .duration(UPDATED_DURATION);
     }
 
     @BeforeEach
@@ -195,7 +210,10 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].clientIp").value(hasItem(DEFAULT_CLIENT_IP)))
             .andExpect(jsonPath("$.[*].requestPath").value(hasItem(DEFAULT_REQUEST_PATH)))
-            .andExpect(jsonPath("$.[*].requestMethod").value(hasItem(DEFAULT_REQUEST_METHOD)));
+            .andExpect(jsonPath("$.[*].requestMethod").value(hasItem(DEFAULT_REQUEST_METHOD)))
+            .andExpect(jsonPath("$.[*].username").value(hasItem(DEFAULT_USERNAME)))
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
+            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION.intValue())));
     }
 
     @Test
@@ -217,7 +235,10 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.clientIp").value(DEFAULT_CLIENT_IP))
             .andExpect(jsonPath("$.requestPath").value(DEFAULT_REQUEST_PATH))
-            .andExpect(jsonPath("$.requestMethod").value(DEFAULT_REQUEST_METHOD));
+            .andExpect(jsonPath("$.requestMethod").value(DEFAULT_REQUEST_METHOD))
+            .andExpect(jsonPath("$.username").value(DEFAULT_USERNAME))
+            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()))
+            .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION.intValue()));
     }
 
     @Test
@@ -247,7 +268,10 @@ class TransactionResourceIT {
             .createdDate(UPDATED_CREATED_DATE)
             .clientIp(UPDATED_CLIENT_IP)
             .requestPath(UPDATED_REQUEST_PATH)
-            .requestMethod(UPDATED_REQUEST_METHOD);
+            .requestMethod(UPDATED_REQUEST_METHOD)
+            .username(UPDATED_USERNAME)
+            .userId(UPDATED_USER_ID)
+            .duration(UPDATED_DURATION);
         TransactionDTO transactionDTO = transactionMapper.toDto(updatedTransaction);
 
         restTransactionMockMvc
@@ -341,7 +365,8 @@ class TransactionResourceIT {
             .action(UPDATED_ACTION)
             .status(UPDATED_STATUS)
             .clientIp(UPDATED_CLIENT_IP)
-            .requestMethod(UPDATED_REQUEST_METHOD);
+            .requestMethod(UPDATED_REQUEST_METHOD)
+            .userId(UPDATED_USER_ID);
 
         restTransactionMockMvc
             .perform(
@@ -380,7 +405,10 @@ class TransactionResourceIT {
             .createdDate(UPDATED_CREATED_DATE)
             .clientIp(UPDATED_CLIENT_IP)
             .requestPath(UPDATED_REQUEST_PATH)
-            .requestMethod(UPDATED_REQUEST_METHOD);
+            .requestMethod(UPDATED_REQUEST_METHOD)
+            .username(UPDATED_USERNAME)
+            .userId(UPDATED_USER_ID)
+            .duration(UPDATED_DURATION);
 
         restTransactionMockMvc
             .perform(

@@ -20,7 +20,10 @@ public class TransactionTestSamples {
             .deviceInfo("deviceInfo1")
             .clientIp("clientIp1")
             .requestPath("requestPath1")
-            .requestMethod("requestMethod1");
+            .requestMethod("requestMethod1")
+            .username("username1")
+            .userId(1L)
+            .duration(1L);
     }
 
     public static Transaction getTransactionSample2() {
@@ -32,7 +35,10 @@ public class TransactionTestSamples {
             .deviceInfo("deviceInfo2")
             .clientIp("clientIp2")
             .requestPath("requestPath2")
-            .requestMethod("requestMethod2");
+            .requestMethod("requestMethod2")
+            .username("username2")
+            .userId(2L)
+            .duration(2L);
     }
 
     public static Transaction getTransactionRandomSampleGenerator() {
@@ -44,6 +50,9 @@ public class TransactionTestSamples {
             .deviceInfo(UUID.randomUUID().toString())
             .clientIp(UUID.randomUUID().toString())
             .requestPath(UUID.randomUUID().toString())
-            .requestMethod(UUID.randomUUID().toString());
+            .requestMethod(UUID.randomUUID().toString())
+            .username(UUID.randomUUID().toString())
+            .userId(longCount.incrementAndGet())
+            .duration(longCount.incrementAndGet());
     }
 }

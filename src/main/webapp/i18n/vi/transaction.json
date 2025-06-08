@@ -25,7 +25,10 @@
       "createdDate": "Created Date",
       "clientIp": "Client Ip",
       "requestPath": "Request Path",
-      "requestMethod": "Request Method"
+      "requestMethod": "Request Method",
+      "username": "Username",
+      "userId": "User Id",
+      "duration": "Duration"
     }
   }
 }

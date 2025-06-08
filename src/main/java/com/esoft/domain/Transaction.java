@@ -47,6 +47,15 @@ public class Transaction implements Serializable {
     @Column(name = "request_method")
     private String requestMethod;
 
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "duration")
+    private Long duration;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -166,6 +175,45 @@ public class Transaction implements Serializable {
         this.requestMethod = requestMethod;
     }
 
+    public String getUsername() {
+        return this.username;
+    }
+
+    public Transaction username(String username) {
+        this.setUsername(username);
+        return this;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getUserId() {
+        return this.userId;
+    }
+
+    public Transaction userId(Long userId) {
+        this.setUserId(userId);
+        return this;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getDuration() {
+        return this.duration;
+    }
+
+    public Transaction duration(Long duration) {
+        this.setDuration(duration);
+        return this;
+    }
+
+    public void setDuration(Long duration) {
+        this.duration = duration;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -198,6 +246,9 @@ public class Transaction implements Serializable {
             ", clientIp='" + getClientIp() + "'" +
             ", requestPath='" + getRequestPath() + "'" +
             ", requestMethod='" + getRequestMethod() + "'" +
+            ", username='" + getUsername() + "'" +
+            ", userId=" + getUserId() +
+            ", duration=" + getDuration() +
             "}";
     }
 }

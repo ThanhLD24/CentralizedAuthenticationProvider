@@ -10,6 +10,9 @@ export interface ITransaction {
   clientIp?: string | null;
   requestPath?: string | null;
   requestMethod?: string | null;
+  username?: string | null;
+  userId?: number | null;
+  duration?: number | null;
 }
 
 export type NewTransaction = Omit<ITransaction, 'id'> & { id: null };

@@ -49,6 +49,18 @@
           <dd>
             <span>{{ transactionRef.requestMethod }}</span>
           </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.transaction.username">Username</span></dt>
+          <dd>
+            <span>{{ transactionRef.username }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.transaction.userId">User Id</span></dt>
+          <dd>
+            <span>{{ transactionRef.userId }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.transaction.duration">Duration</span></dt>
+          <dd>
+            <span>{{ transactionRef.duration }}</span>
+          </dd>
         </dl>
 
         <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

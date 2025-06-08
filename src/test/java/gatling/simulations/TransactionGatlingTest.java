@@ -76,6 +76,9 @@ public class TransactionGatlingTest extends Simulation {
                                 ", \"clientIp\": \"SAMPLE_TEXT\"" +
                                 ", \"requestPath\": \"SAMPLE_TEXT\"" +
                                 ", \"requestMethod\": \"SAMPLE_TEXT\"" +
+                                ", \"username\": \"SAMPLE_TEXT\"" +
+                                ", \"userId\": 0" +
+                                ", \"duration\": 0" +
                                 "}"
                             )
                         )

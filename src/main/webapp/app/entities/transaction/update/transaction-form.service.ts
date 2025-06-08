@@ -39,6 +39,9 @@ type TransactionFormGroupContent = {
   clientIp: FormControl<TransactionFormRawValue['clientIp']>;
   requestPath: FormControl<TransactionFormRawValue['requestPath']>;
   requestMethod: FormControl<TransactionFormRawValue['requestMethod']>;
+  username: FormControl<TransactionFormRawValue['username']>;
+  userId: FormControl<TransactionFormRawValue['userId']>;
+  duration: FormControl<TransactionFormRawValue['duration']>;
 };
 
 export type TransactionFormGroup = FormGroup<TransactionFormGroupContent>;
@@ -66,6 +69,9 @@ export class TransactionFormService {
       clientIp: new FormControl(transactionRawValue.clientIp),
       requestPath: new FormControl(transactionRawValue.requestPath),
       requestMethod: new FormControl(transactionRawValue.requestMethod),
+      username: new FormControl(transactionRawValue.username),
+      userId: new FormControl(transactionRawValue.userId),
+      duration: new FormControl(transactionRawValue.duration),
     });
   }
 

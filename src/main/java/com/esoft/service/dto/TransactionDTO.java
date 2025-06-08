@@ -28,6 +28,12 @@ public class TransactionDTO implements Serializable {
 
     private String requestMethod;
 
+    private String username;
+
+    private Long userId;
+
+    private Long duration;
+
     public Long getId() {
         return id;
     }
@@ -100,6 +106,30 @@ public class TransactionDTO implements Serializable {
         this.requestMethod = requestMethod;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Long duration) {
+        this.duration = duration;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -134,6 +164,9 @@ public class TransactionDTO implements Serializable {
             ", clientIp='" + getClientIp() + "'" +
             ", requestPath='" + getRequestPath() + "'" +
             ", requestMethod='" + getRequestMethod() + "'" +
+            ", username='" + getUsername() + "'" +
+            ", userId=" + getUserId() +
+            ", duration=" + getDuration() +
             "}";
     }
 }

@@ -22,7 +22,6 @@ public class TransactionLogFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // Wrap request and response to read body
         CachedBodyHttpServletRequest wrappedRequest = new CachedBodyHttpServletRequest(request);
         CachedBodyHttpServletResponse wrappedResponse = new CachedBodyHttpServletResponse(response);
 
@@ -30,34 +29,27 @@ public class TransactionLogFilter extends OncePerRequestFilter {
         filterChain.doFilter(wrappedRequest, wrappedResponse);
         long duration = System.currentTimeMillis() - start;
 
-        // Collect data
         String method = request.getMethod();
         String path = request.getRequestURI();
 
-        // If you have a way to get the username, use it; otherwise, default to "anonymous"
-        Long userId = SecurityUtils.getCurrentUserId()
-            .orElse(0L);
+        Long userId = SecurityUtils.getCurrentUserId().orElse(0L);
+        String username = SecurityUtils.getCurrentUserLogin()
+            .orElse("anynomous");
         String clientIp = request.getRemoteAddr();
         int status = wrappedResponse.getStatus();
-        String reqBody = new String(wrappedRequest.getCachedBody());
-        String resBody = new String(wrappedResponse.getCachedBody());
+//        String reqBody = new String(wrappedRequest.getCachedBody());
+//        String resBody = new String(wrappedResponse.getCachedBody());
 
-        // Save
         Transaction log = new Transaction();
         log.setRequestMethod(method);
         log.setRequestPath(path);
-        log.setUser(userId);
+        log.setUserId(userId);
+        log.setUsername(username);
         log.setClientIp(clientIp);
         log.setStatus(status);
-//        log.setRequestBody(reqBody);
-//        log.setResponseBody(resBody);
+        log.setDuration(duration);
         log.setCreatedDate(Instant.now());
-
         transactionRepository.save(log);
-
-        // save transaction to database as async
-//        transactionRepository.saveAsync(method, path, username, clientIp, status, reqBody, resBody, duration);
-
         wrappedResponse.copyBodyToResponse();
     }
 }

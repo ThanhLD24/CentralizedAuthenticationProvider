@@ -28,6 +28,9 @@ describe('Transaction Form Service', () => {
             clientIp: expect.any(Object),
             requestPath: expect.any(Object),
             requestMethod: expect.any(Object),
+            username: expect.any(Object),
+            userId: expect.any(Object),
+            duration: expect.any(Object),
           }),
         );
       });
@@ -46,6 +49,9 @@ describe('Transaction Form Service', () => {
             clientIp: expect.any(Object),
             requestPath: expect.any(Object),
             requestMethod: expect.any(Object),
+            username: expect.any(Object),
+            userId: expect.any(Object),
+            duration: expect.any(Object),
           }),
         );
       });
