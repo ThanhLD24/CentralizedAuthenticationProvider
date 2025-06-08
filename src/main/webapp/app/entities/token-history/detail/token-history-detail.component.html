@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (tokenHistory(); as tokenHistoryRef) {
+      <div>
+        <h2 data-cy="tokenHistoryDetailsHeading">
+          <span jhiTranslate="centralizedAuthenticationProviderApp.tokenHistory.detail.title">Token History</span>
+        </h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ tokenHistoryRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.tokenHistory.hashedToken">Hashed Token</span></dt>
+          <dd>
+            <span>{{ tokenHistoryRef.hashedToken }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.tokenHistory.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ tokenHistoryRef.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.tokenHistory.updatedDate">Updated Date</span></dt>
+          <dd>
+            <span>{{ tokenHistoryRef.updatedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.tokenHistory.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'centralizedAuthenticationProviderApp.TokenStatus.' + (tokenHistoryRef.status ?? 'null')">{{
+              { null: '', ACTIVE: 'ACTIVE', EXPIRED: 'EXPIRED', REVOKED: 'REVOKED', INACTIVE: 'INACTIVE', USED: 'USED' }[
+                tokenHistoryRef.status ?? 'null'
+              ]
+            }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/token-history', tokenHistoryRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>
