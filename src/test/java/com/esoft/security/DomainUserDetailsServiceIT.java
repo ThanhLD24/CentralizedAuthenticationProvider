@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import com.esoft.IntegrationTest;
 import com.esoft.domain.User;
 import com.esoft.repository.UserRepository;
-import com.esoft.service.UserService;
+import com.esoft.service.UserInternalService;
 import java.util.Locale;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -36,7 +36,7 @@ class DomainUserDetailsServiceIT {
     private UserRepository userRepository;
 
     @Autowired
-    private UserService userService;
+    private UserInternalService userInternalService;
 
     @Autowired
     @Qualifier("userDetailsService")
@@ -87,9 +87,9 @@ class DomainUserDetailsServiceIT {
 
     @AfterEach
     void cleanup() {
-        userService.deleteUser(USER_ONE_LOGIN);
-        userService.deleteUser(USER_TWO_LOGIN);
-        userService.deleteUser(USER_THREE_LOGIN);
+        userInternalService.deleteUser(USER_ONE_LOGIN);
+        userInternalService.deleteUser(USER_TWO_LOGIN);
+        userInternalService.deleteUser(USER_THREE_LOGIN);
     }
 
     @Test

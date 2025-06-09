@@ -26,11 +26,11 @@ import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.security.RandomUtil;
 
 /**
- * Integration tests for {@link UserService}.
+ * Integration tests for {@link UserInternalService}.
  */
 @IntegrationTest
 @Transactional
-class UserServiceIT {
+class UserInternalServiceIT {
 
     private static final String DEFAULT_LOGIN = "johndoe_service";
 
@@ -51,7 +51,7 @@ class UserServiceIT {
     private UserRepository userRepository;
 
     @Autowired
-    private UserService userService;
+    private UserInternalService userInternalService;
 
     @Autowired
     private AuditingHandler auditingHandler;
@@ -92,7 +92,7 @@ class UserServiceIT {
             .map(cacheName -> this.cacheManager.getCache(cacheName))
             .filter(Objects::nonNull)
             .forEach(Cache::clear);
-        userService.deleteUser(DEFAULT_LOGIN);
+        userInternalService.deleteUser(DEFAULT_LOGIN);
         assertThat(userRepository.count()).isEqualTo(numberOfUsers);
         numberOfUsers = null;
     }
@@ -101,10 +101,10 @@ class UserServiceIT {
     @Transactional
     void assertThatUserMustExistToResetPassword() {
         userRepository.saveAndFlush(user);
-        Optional<User> maybeUser = userService.requestPasswordReset("invalid.login@localhost");
+        Optional<User> maybeUser = userInternalService.requestPasswordReset("invalid.login@localhost");
         assertThat(maybeUser).isNotPresent();
 
-        maybeUser = userService.requestPasswordReset(user.getEmail());
+        maybeUser = userInternalService.requestPasswordReset(user.getEmail());
         assertThat(maybeUser).isPresent();
         assertThat(maybeUser.orElse(null).getEmail()).isEqualTo(user.getEmail());
         assertThat(maybeUser.orElse(null).getResetDate()).isNotNull();
@@ -117,7 +117,7 @@ class UserServiceIT {
         user.setActivated(false);
         userRepository.saveAndFlush(user);
 
-        Optional<User> maybeUser = userService.requestPasswordReset(user.getLogin());
+        Optional<User> maybeUser = userInternalService.requestPasswordReset(user.getLogin());
         assertThat(maybeUser).isNotPresent();
         userRepository.delete(user);
     }
@@ -132,7 +132,7 @@ class UserServiceIT {
         user.setResetKey(resetKey);
         userRepository.saveAndFlush(user);
 
-        Optional<User> maybeUser = userService.completePasswordReset("johndoe2", user.getResetKey());
+        Optional<User> maybeUser = userInternalService.completePasswordReset("johndoe2", user.getResetKey());
         assertThat(maybeUser).isNotPresent();
         userRepository.delete(user);
     }
@@ -146,7 +146,7 @@ class UserServiceIT {
         user.setResetKey("1234");
         userRepository.saveAndFlush(user);
 
-        Optional<User> maybeUser = userService.completePasswordReset("johndoe2", user.getResetKey());
+        Optional<User> maybeUser = userInternalService.completePasswordReset("johndoe2", user.getResetKey());
         assertThat(maybeUser).isNotPresent();
         userRepository.delete(user);
     }
@@ -162,7 +162,7 @@ class UserServiceIT {
         user.setResetKey(resetKey);
         userRepository.saveAndFlush(user);
 
-        Optional<User> maybeUser = userService.completePasswordReset("johndoe2", user.getResetKey());
+        Optional<User> maybeUser = userInternalService.completePasswordReset("johndoe2", user.getResetKey());
         assertThat(maybeUser).isPresent();
         assertThat(maybeUser.orElse(null).getResetDate()).isNull();
         assertThat(maybeUser.orElse(null).getResetKey()).isNull();
@@ -184,7 +184,7 @@ class UserServiceIT {
         Instant threeDaysAgo = now.minus(3, ChronoUnit.DAYS);
         List<User> users = userRepository.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(threeDaysAgo);
         assertThat(users).isNotEmpty();
-        userService.removeNotActivatedUsers();
+        userInternalService.removeNotActivatedUsers();
         users = userRepository.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(threeDaysAgo);
         assertThat(users).isEmpty();
     }
@@ -201,7 +201,7 @@ class UserServiceIT {
         Instant threeDaysAgo = now.minus(3, ChronoUnit.DAYS);
         List<User> users = userRepository.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(threeDaysAgo);
         assertThat(users).isEmpty();
-        userService.removeNotActivatedUsers();
+        userInternalService.removeNotActivatedUsers();
         Optional<User> maybeDbUser = userRepository.findById(dbUser.getId());
         assertThat(maybeDbUser).contains(dbUser);
     }

@@ -1,4 +1,4 @@
-package com.esoft.web.rest;
+package com.esoft.web.rest.web;
 
 import com.esoft.repository.ApplicationSystemRepository;
 import com.esoft.service.ApplicationSystemService;
@@ -150,12 +150,8 @@ public class ApplicationSystemResource {
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
     ) {
         LOG.debug("REST request to get a page of ApplicationSystems");
-        Page<ApplicationSystemDTO> page;
-        if (eagerload) {
-            page = applicationSystemService.findAllWithEagerRelationships(pageable);
-        } else {
-            page = applicationSystemService.findAll(pageable);
-        }
+        Page<ApplicationSystemDTO> page = applicationSystemService.findAll(pageable);
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

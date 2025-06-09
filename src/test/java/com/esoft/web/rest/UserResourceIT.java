@@ -9,9 +9,10 @@ import com.esoft.IntegrationTest;
 import com.esoft.domain.User;
 import com.esoft.repository.UserRepository;
 import com.esoft.security.AuthoritiesConstants;
-import com.esoft.service.UserService;
+import com.esoft.service.UserInternalService;
 import com.esoft.service.dto.AdminUserDTO;
 import com.esoft.service.mapper.UserMapper;
+import com.esoft.web.rest.web.UserResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import java.util.*;
@@ -64,7 +65,7 @@ class UserResourceIT {
     private UserRepository userRepository;
 
     @Autowired
-    private UserService userService;
+    private UserInternalService userInternalService;
 
     @Autowired
     private UserMapper userMapper;
@@ -123,10 +124,10 @@ class UserResourceIT {
 
     @AfterEach
     void cleanupAndCheck() {
-        userService.deleteUser(DEFAULT_LOGIN);
-        userService.deleteUser(UPDATED_LOGIN);
-        userService.deleteUser(user.getLogin());
-        userService.deleteUser("anotherlogin");
+        userInternalService.deleteUser(DEFAULT_LOGIN);
+        userInternalService.deleteUser(UPDATED_LOGIN);
+        userInternalService.deleteUser(user.getLogin());
+        userInternalService.deleteUser("anotherlogin");
         assertThat(userRepository.count()).isEqualTo(numberOfUsers);
         numberOfUsers = null;
         cacheManager

@@ -1,10 +1,10 @@
-package com.esoft.web.rest;
+package com.esoft.web.rest.web;
 
 import com.esoft.domain.User;
 import com.esoft.repository.UserRepository;
 import com.esoft.security.SecurityUtils;
 import com.esoft.service.MailService;
-import com.esoft.service.UserService;
+import com.esoft.service.UserInternalService;
 import com.esoft.service.dto.AdminUserDTO;
 import com.esoft.service.dto.PasswordChangeDTO;
 import com.esoft.web.rest.errors.*;
@@ -36,13 +36,13 @@ public class AccountResource {
 
     private final UserRepository userRepository;
 
-    private final UserService userService;
+    private final UserInternalService userInternalService;
 
     private final MailService mailService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    public AccountResource(UserRepository userRepository, UserInternalService userInternalService, MailService mailService) {
         this.userRepository = userRepository;
-        this.userService = userService;
+        this.userInternalService = userInternalService;
         this.mailService = mailService;
     }
 
@@ -60,7 +60,7 @@ public class AccountResource {
         if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
-        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+        User user = userInternalService.registerUser(managedUserVM, managedUserVM.getPassword());
         mailService.sendActivationEmail(user);
     }
 
@@ -72,7 +72,7 @@ public class AccountResource {
      */
     @GetMapping("/activate")
     public void activateAccount(@RequestParam(value = "key") String key) {
-        Optional<User> user = userService.activateRegistration(key);
+        Optional<User> user = userInternalService.activateRegistration(key);
         if (!user.isPresent()) {
             throw new AccountResourceException("No user was found for this activation key");
         }
@@ -86,7 +86,7 @@ public class AccountResource {
      */
     @GetMapping("/account")
     public AdminUserDTO getAccount() {
-        return userService
+        return userInternalService
             .getUserWithAuthorities()
             .map(AdminUserDTO::new)
             .orElseThrow(() -> new AccountResourceException("User could not be found"));
@@ -111,7 +111,7 @@ public class AccountResource {
         if (!user.isPresent()) {
             throw new AccountResourceException("User could not be found");
         }
-        userService.updateUser(
+        userInternalService.updateUser(
             userDTO.getFirstName(),
             userDTO.getLastName(),
             userDTO.getEmail(),
@@ -131,7 +131,7 @@ public class AccountResource {
         if (isPasswordLengthInvalid(passwordChangeDto.getNewPassword())) {
             throw new InvalidPasswordException();
         }
-        userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
+        userInternalService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
     }
 
     /**
@@ -141,7 +141,7 @@ public class AccountResource {
      */
     @PostMapping(path = "/account/reset-password/init")
     public void requestPasswordReset(@RequestBody String mail) {
-        Optional<User> user = userService.requestPasswordReset(mail);
+        Optional<User> user = userInternalService.requestPasswordReset(mail);
         if (user.isPresent()) {
             mailService.sendPasswordResetMail(user.orElseThrow());
         } else {
@@ -163,7 +163,7 @@ public class AccountResource {
         if (isPasswordLengthInvalid(keyAndPassword.getNewPassword())) {
             throw new InvalidPasswordException();
         }
-        Optional<User> user = userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
+        Optional<User> user = userInternalService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
 
         if (!user.isPresent()) {
             throw new AccountResourceException("No user was found for this reset key");

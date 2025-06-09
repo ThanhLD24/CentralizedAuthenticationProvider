@@ -13,6 +13,7 @@ import com.esoft.domain.enumeration.TokenStatus;
 import com.esoft.repository.TokenHistoryRepository;
 import com.esoft.service.dto.TokenHistoryDTO;
 import com.esoft.service.mapper.TokenHistoryMapper;
+import com.esoft.web.rest.web.TokenHistoryResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;

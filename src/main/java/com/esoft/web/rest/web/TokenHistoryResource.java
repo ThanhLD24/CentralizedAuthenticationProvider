@@ -1,4 +1,4 @@
-package com.esoft.web.rest;
+package com.esoft.web.rest.web;
 
 import com.esoft.repository.TokenHistoryRepository;
 import com.esoft.service.TokenHistoryService;

@@ -8,7 +8,7 @@ import com.esoft.domain.enumeration.TokenType;
 import com.esoft.repository.TokenHistoryRepository;
 import com.esoft.repository.UserRepository;
 import com.esoft.service.AuthenticationService;
-import com.esoft.service.UserService;
+import com.esoft.service.UserInternalService;
 import com.esoft.service.dto.AdminUserDTO;
 import com.esoft.service.dto.AuthorizationDTO;
 import com.esoft.service.dto.TokenResponseDTO;
@@ -20,7 +20,6 @@ import com.esoft.web.rest.errors.UnauthorizedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,17 +32,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JWTUtil jwtUtil;
     private final UserRepository userRepository;
-    private final UserService userService;
+    private final UserInternalService userInternalService;
     private final TokenHistoryRepository tokenHistoryRepository;
     private final UserMapper userMapper;
     public AuthenticationServiceImpl(AuthenticationManagerBuilder authenticationManagerBuilder, JWTUtil jwtUtil,
                                      UserRepository userRepository, TokenHistoryRepository tokenHistoryRepository,
-                                     UserService userService, UserMapper userMapper) {
+                                     UserInternalService userInternalService, UserMapper userMapper) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
         this.tokenHistoryRepository = tokenHistoryRepository;
-        this.userService = userService;
+        this.userInternalService = userInternalService;
         this.userMapper = userMapper;
     }
 

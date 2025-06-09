@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
-public class GlobalExceptionHandler {
+@RestControllerAdvice(basePackages = "com.esoft.web.rest.external")
+public class ExternalAPIExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Void>> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiResponse<Void>> handleRuntimeException(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 ApiResponse.<Void>builder()
                     .status(ResponseStatus.ERROR)
             .message(ex.getMessage())
@@ -71,5 +71,27 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleUnauthorized(UnauthorizedException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
             .body(Map.of("message", ex.getMessage()));
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ApiResponse<Void>> handleApiException(BusinessException ex) {
+        return ResponseEntity.status(ex.getStatus()).body(
+            ApiResponse.<Void>builder()
+                .status(ResponseStatus.ERROR)
+                .message(ex.getMessage())
+                .errors(Map.of("error", ex.getMessage()))
+                .build()
+        );
+    }
+
+    @ExceptionHandler(BadRequestAlertException.class)
+    public ResponseEntity<ApiResponse<Void>> handleApiException(BadRequestAlertException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+            ApiResponse.<Void>builder()
+                .status(ResponseStatus.ERROR)
+                .message(ex.getProblemDetailWithCause().getTitle())
+                .errors(Map.of("error", ex.getMessage()))
+                .build()
+        );
     }
 }

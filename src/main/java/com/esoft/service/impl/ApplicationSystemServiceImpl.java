@@ -72,15 +72,11 @@ public class ApplicationSystemServiceImpl implements ApplicationSystemService {
         return applicationSystemRepository.findAll(pageable).map(applicationSystemMapper::toDto);
     }
 
-    public Page<ApplicationSystemDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return applicationSystemRepository.findAllWithEagerRelationships(pageable).map(applicationSystemMapper::toDto);
-    }
-
     @Override
     @Transactional(readOnly = true)
     public Optional<ApplicationSystemDTO> findOne(Long id) {
         LOG.debug("Request to get ApplicationSystem : {}", id);
-        return applicationSystemRepository.findOneWithEagerRelationships(id).map(applicationSystemMapper::toDto);
+        return applicationSystemRepository.findById(id).map(applicationSystemMapper::toDto);
     }
 
     @Override

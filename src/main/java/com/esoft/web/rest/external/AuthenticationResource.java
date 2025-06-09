@@ -2,7 +2,7 @@ package com.esoft.web.rest.external;
 
 import com.esoft.service.AuthenticationService;
 import com.esoft.service.dto.AuthorizationDTO;
-import com.esoft.web.rest.LoginResource;
+import com.esoft.web.rest.web.LoginResource;
 import com.esoft.web.rest.dto.*;
 import com.esoft.service.dto.TokenResponseDTO;
 import com.esoft.web.rest.dto.ResponseStatus;

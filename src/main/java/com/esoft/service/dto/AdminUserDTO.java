@@ -4,6 +4,9 @@ import com.esoft.config.Constants;
 import com.esoft.domain.Authority;
 import com.esoft.domain.User;
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
@@ -48,6 +51,10 @@ public class AdminUserDTO implements Serializable {
     private String lastModifiedBy;
 
     private Instant lastModifiedDate;
+
+    @Getter
+    @Setter
+    private String password;
 
     private Set<String> authorities;
 

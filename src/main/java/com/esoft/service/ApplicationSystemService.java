@@ -42,14 +42,6 @@ public interface ApplicationSystemService {
     Page<ApplicationSystemDTO> findAll(Pageable pageable);
 
     /**
-     * Get all the applicationSystems with eager load of many-to-many relationships.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    Page<ApplicationSystemDTO> findAllWithEagerRelationships(Pageable pageable);
-
-    /**
      * Get the "id" applicationSystem.
      *
      * @param id the id of the entity.

@@ -4,7 +4,6 @@ import static com.esoft.domain.ApplicationSystemAsserts.*;
 import static com.esoft.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -15,11 +14,11 @@ import com.esoft.repository.UserRepository;
 import com.esoft.service.ApplicationSystemService;
 import com.esoft.service.dto.ApplicationSystemDTO;
 import com.esoft.service.mapper.ApplicationSystemMapper;
+import com.esoft.web.rest.web.ApplicationSystemResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.AfterEach;
@@ -30,8 +29,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -200,21 +197,6 @@ class ApplicationSystemResourceIT {
     }
 
     @SuppressWarnings({ "unchecked" })
-    void getAllApplicationSystemsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(applicationSystemServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restApplicationSystemMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
-
-        verify(applicationSystemServiceMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllApplicationSystemsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(applicationSystemServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restApplicationSystemMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
-        verify(applicationSystemRepositoryMock, times(1)).findAll(any(Pageable.class));
-    }
 
     @Test
     @Transactional

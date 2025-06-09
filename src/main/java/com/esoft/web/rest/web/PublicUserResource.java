@@ -1,6 +1,6 @@
-package com.esoft.web.rest;
+package com.esoft.web.rest.web;
 
-import com.esoft.service.UserService;
+import com.esoft.service.UserInternalService;
 import com.esoft.service.dto.UserDTO;
 import java.util.*;
 import org.slf4j.Logger;
@@ -25,10 +25,10 @@ public class PublicUserResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(PublicUserResource.class);
 
-    private final UserService userService;
+    private final UserInternalService userInternalService;
 
-    public PublicUserResource(UserService userService) {
-        this.userService = userService;
+    public PublicUserResource(UserInternalService userInternalService) {
+        this.userInternalService = userInternalService;
     }
 
     /**
@@ -44,7 +44,7 @@ public class PublicUserResource {
             return ResponseEntity.badRequest().build();
         }
 
-        final Page<UserDTO> page = userService.getAllPublicUsers(pageable);
+        final Page<UserDTO> page = userInternalService.getAllPublicUsers(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

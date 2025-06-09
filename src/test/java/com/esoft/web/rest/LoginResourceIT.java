@@ -13,6 +13,7 @@ import com.esoft.IntegrationTest;
 import com.esoft.domain.User;
 import com.esoft.repository.UserRepository;
 import com.esoft.web.rest.dto.vm.LoginVM;
+import com.esoft.web.rest.web.LoginResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

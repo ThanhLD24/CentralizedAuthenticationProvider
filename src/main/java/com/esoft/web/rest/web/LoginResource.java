@@ -1,4 +1,4 @@
-package com.esoft.web.rest;
+package com.esoft.web.rest.web;
 
 import com.esoft.utils.JWTUtil;
 import com.esoft.web.rest.errors.JWTToken;

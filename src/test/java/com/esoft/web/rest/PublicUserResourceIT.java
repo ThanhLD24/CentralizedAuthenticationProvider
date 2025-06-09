@@ -8,9 +8,11 @@ import com.esoft.IntegrationTest;
 import com.esoft.domain.User;
 import com.esoft.repository.UserRepository;
 import com.esoft.security.AuthoritiesConstants;
-import com.esoft.service.UserService;
+import com.esoft.service.UserInternalService;
 import java.util.Objects;
 import java.util.Set;
+
+import com.esoft.web.rest.web.PublicUserResource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +37,7 @@ class PublicUserResourceIT {
     private UserRepository userRepository;
 
     @Autowired
-    private UserService userService;
+    private UserInternalService userInternalService;
 
     @Autowired
     private CacheManager cacheManager;
@@ -64,7 +66,7 @@ class PublicUserResourceIT {
             .map(cacheName -> this.cacheManager.getCache(cacheName))
             .filter(Objects::nonNull)
             .forEach(Cache::clear);
-        userService.deleteUser(user.getLogin());
+        userInternalService.deleteUser(user.getLogin());
         assertThat(userRepository.count()).isEqualTo(numberOfUsers);
         numberOfUsers = null;
     }

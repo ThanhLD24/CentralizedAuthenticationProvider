@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.esoft.IntegrationTest;
 import com.esoft.domain.Authority;
 import com.esoft.repository.AuthorityRepository;
+import com.esoft.web.rest.web.AuthorityResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import java.util.UUID;
