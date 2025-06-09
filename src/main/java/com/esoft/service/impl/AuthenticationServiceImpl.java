@@ -5,18 +5,17 @@ import com.esoft.domain.TokenHistory;
 import com.esoft.domain.User;
 import com.esoft.domain.enumeration.TokenStatus;
 import com.esoft.domain.enumeration.TokenType;
-import com.esoft.repository.TokenHistoryRepository;
 import com.esoft.repository.UserRepository;
 import com.esoft.service.AuthenticationService;
-import com.esoft.service.UserInternalService;
+import com.esoft.service.TokenHistoryService;
 import com.esoft.service.dto.AdminUserDTO;
 import com.esoft.service.dto.AuthorizationDTO;
 import com.esoft.service.dto.TokenResponseDTO;
 import com.esoft.service.mapper.UserMapper;
 import com.esoft.utils.JWTUtil;
-import com.esoft.web.rest.errors.TokenAlreadyRevokedException;
-import com.esoft.web.rest.errors.TokenNotFoundException;
-import com.esoft.web.rest.errors.UnauthorizedException;
+import com.esoft.service.errors.TokenAlreadyRevokedException;
+import com.esoft.service.errors.TokenNotFoundException;
+import com.esoft.service.errors.UnauthorizedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -32,28 +31,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JWTUtil jwtUtil;
     private final UserRepository userRepository;
-    private final UserInternalService userInternalService;
-    private final TokenHistoryRepository tokenHistoryRepository;
+    private final TokenHistoryService tokenHistoryService;
     private final UserMapper userMapper;
     public AuthenticationServiceImpl(AuthenticationManagerBuilder authenticationManagerBuilder, JWTUtil jwtUtil,
-                                     UserRepository userRepository, TokenHistoryRepository tokenHistoryRepository,
-                                     UserInternalService userInternalService, UserMapper userMapper) {
+                                     UserRepository userRepository, TokenHistoryService tokenHistoryService,
+                                     UserMapper userMapper) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
-        this.tokenHistoryRepository = tokenHistoryRepository;
-        this.userInternalService = userInternalService;
+        this.tokenHistoryService = tokenHistoryService;
         this.userMapper = userMapper;
     }
 
     @Override
     @Transactional
-    public TokenResponseDTO getToken(String username, String password) {
+    public TokenResponseDTO createToken(String username, String password) {
         boolean rememberMe = false;
 
         Authentication authentication = authenticateUser(username, password);
 
-        User user = userRepository.findOneByLogin(authentication.getName())
+        User user = userRepository.findOneWithAuthoritiesByLogin(authentication.getName())
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         String jwt = jwtUtil.createToken(authentication, rememberMe);
@@ -77,7 +74,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public void revokeToken(String token) {
         String hashedToken = jwtUtil.hashToken(token);
 
-        TokenHistory tokenHistory = tokenHistoryRepository.findOneByHashedToken(hashedToken)
+        TokenHistory tokenHistory = tokenHistoryService.findOneByHashedToken(hashedToken)
             .orElseThrow(TokenNotFoundException::new);
 
         if (tokenHistory.getStatus() == TokenStatus.REVOKED) {
@@ -99,7 +96,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         String hashedToken = jwtUtil.hashToken(token);
-        Optional<TokenHistory> tokenHistoryOptional = tokenHistoryRepository.findOneByHashedToken(hashedToken);
+        Optional<TokenHistory> tokenHistoryOptional = tokenHistoryService.findOneByHashedToken(hashedToken);
 
         if (tokenHistoryOptional.isEmpty()) {
             return new AuthorizationDTO(false, Constants.AUTH_MESSAGE.TOKEN_INVALID, null);
@@ -123,7 +120,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         String hashedRefreshToken = jwtUtil.hashToken(refreshToken);
-        TokenHistory tokenHistory = tokenHistoryRepository
+        TokenHistory tokenHistory = tokenHistoryService
             .findOneByHashedToken(hashedRefreshToken)
             .orElseThrow(() -> new UnauthorizedException("Refresh token not found"));
 
@@ -152,7 +149,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         accessToken.setType(TokenType.ACCESS_TOKEN);
         accessToken.setUser(user);
 
-        tokenHistoryRepository.save(accessToken);
+        tokenHistoryService.save(accessToken);
     }
 
     private void saveRefreshToken(String refreshToken, User user) {
@@ -165,12 +162,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         refreshTokenEntity.setType(TokenType.REFRESH_TOKEN);
         refreshTokenEntity.setUser(user);
 
-        tokenHistoryRepository.save(refreshTokenEntity);
+        tokenHistoryService.save(refreshTokenEntity);
     }
 
     private void revokeOldToken(TokenHistory tokenHistory) {
         tokenHistory.setStatus(TokenStatus.REVOKED);
         tokenHistory.setUpdatedDate(Instant.now());
-        tokenHistoryRepository.save(tokenHistory);
+        tokenHistoryService.save(tokenHistory);
     }
 }

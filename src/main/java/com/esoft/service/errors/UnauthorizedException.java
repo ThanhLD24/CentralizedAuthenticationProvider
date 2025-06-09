@@ -1,6 +1,5 @@
-package com.esoft.web.rest.errors;
+package com.esoft.service.errors;
 
-import com.esoft.web.rest.errors.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

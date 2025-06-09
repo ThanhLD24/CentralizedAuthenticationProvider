@@ -1,4 +1,4 @@
-package com.esoft.web.rest.errors;
+package com.esoft.service.errors;
 
 import java.io.Serializable;
 

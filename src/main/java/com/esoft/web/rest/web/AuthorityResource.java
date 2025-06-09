@@ -2,7 +2,7 @@ package com.esoft.web.rest.web;
 
 import com.esoft.domain.Authority;
 import com.esoft.repository.AuthorityRepository;
-import com.esoft.web.rest.errors.BadRequestAlertException;
+import com.esoft.service.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;

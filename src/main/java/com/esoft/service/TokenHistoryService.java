@@ -1,5 +1,6 @@
 package com.esoft.service;
 
+import com.esoft.domain.TokenHistory;
 import com.esoft.service.dto.TokenHistoryDTO;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Pageable;
  * Service Interface for managing {@link com.esoft.domain.TokenHistory}.
  */
 public interface TokenHistoryService {
+    String CACHE_FIND_ONE_BY_HASHED_TOKEN = "findOneByHashedToken";
+
     /**
      * Save a tokenHistory.
      *
@@ -55,4 +58,7 @@ public interface TokenHistoryService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    TokenHistoryDTO save(TokenHistory tokenHistory);
+    Optional<TokenHistory> findOneByHashedToken(String hashedToken);
 }

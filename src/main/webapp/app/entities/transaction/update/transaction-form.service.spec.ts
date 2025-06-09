@@ -31,6 +31,7 @@ describe('Transaction Form Service', () => {
             username: expect.any(Object),
             userId: expect.any(Object),
             duration: expect.any(Object),
+            tokenHistoryId: expect.any(Object),
           }),
         );
       });
@@ -52,6 +53,7 @@ describe('Transaction Form Service', () => {
             username: expect.any(Object),
             userId: expect.any(Object),
             duration: expect.any(Object),
+            tokenHistoryId: expect.any(Object),
           }),
         );
       });

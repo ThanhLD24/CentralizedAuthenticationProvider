@@ -1,13 +1,15 @@
 package com.esoft.web.rest.web;
 
 import com.esoft.domain.User;
+import com.esoft.service.errors.EmailAlreadyUsedException;
+import com.esoft.service.errors.InvalidPasswordException;
+import com.esoft.service.errors.LoginAlreadyUsedException;
 import com.esoft.repository.UserRepository;
 import com.esoft.security.SecurityUtils;
 import com.esoft.service.MailService;
 import com.esoft.service.UserInternalService;
 import com.esoft.service.dto.AdminUserDTO;
 import com.esoft.service.dto.PasswordChangeDTO;
-import com.esoft.web.rest.errors.*;
 import com.esoft.web.rest.dto.vm.KeyAndPasswordVM;
 import com.esoft.web.rest.dto.vm.ManagedUserVM;
 import jakarta.validation.Valid;

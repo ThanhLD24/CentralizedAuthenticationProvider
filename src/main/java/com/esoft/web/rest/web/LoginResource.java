@@ -1,7 +1,7 @@
 package com.esoft.web.rest.web;
 
 import com.esoft.utils.JWTUtil;
-import com.esoft.web.rest.errors.JWTToken;
+import com.esoft.service.errors.JWTToken;
 import com.esoft.web.rest.dto.vm.LoginVM;
 import jakarta.validation.Valid;
 import java.security.Principal;

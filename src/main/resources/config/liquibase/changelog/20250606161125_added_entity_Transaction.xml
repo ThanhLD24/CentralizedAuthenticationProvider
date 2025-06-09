@@ -47,6 +47,9 @@
             <column name="duration" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="token_history_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="transaction" columnName="created_date" columnDataType="${datetimeType}"/>
@@ -80,6 +83,7 @@
             <column name="username" type="string"/>
             <column name="user_id" type="numeric"/>
             <column name="duration" type="numeric"/>
+            <column name="token_history_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -235,7 +235,8 @@ public class CacheConfiguration {
 
             Stream.of(
                 com.esoft.repository.UserRepository.USERS_BY_LOGIN_CACHE,
-                com.esoft.repository.UserRepository.USERS_BY_EMAIL_CACHE
+                com.esoft.repository.UserRepository.USERS_BY_EMAIL_CACHE,
+                com.esoft.service.TokenHistoryService.CACHE_FIND_ONE_BY_HASHED_TOKEN
             ).forEach(cacheName ->
                 manager.defineConfiguration(
                     cacheName,

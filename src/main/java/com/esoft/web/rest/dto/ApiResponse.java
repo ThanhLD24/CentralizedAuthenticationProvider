@@ -14,5 +14,10 @@ public class ApiResponse<T> {
     private String message;
     private T data;
     private Object errors;
+
+    public ApiResponse(ResponseStatus status, String message) {
+        this.status = status;
+        this.message = message;
+    }
 }
 

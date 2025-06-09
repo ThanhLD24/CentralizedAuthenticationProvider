@@ -5,7 +5,7 @@ import com.esoft.service.dto.TokenResponseDTO;
 
 public interface AuthenticationService {
 
-    TokenResponseDTO getToken(String username, String password);
+    TokenResponseDTO createToken(String username, String password);
 
     void revokeToken(String token);
 

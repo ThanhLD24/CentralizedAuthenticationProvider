@@ -3,7 +3,7 @@ package com.esoft.web.rest.web;
 import com.esoft.repository.TransactionRepository;
 import com.esoft.service.TransactionService;
 import com.esoft.service.dto.TransactionDTO;
-import com.esoft.web.rest.errors.BadRequestAlertException;
+import com.esoft.service.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;

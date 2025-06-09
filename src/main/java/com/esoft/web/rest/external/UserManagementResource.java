@@ -11,6 +11,8 @@ import com.esoft.web.rest.dto.ApiResponse;
 import com.esoft.web.rest.dto.ResponseStatus;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,15 +24,15 @@ import java.util.Optional;
 @RequestMapping("/api/user")
 @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
 public class UserManagementResource {
+    private static final Logger LOG = LoggerFactory.getLogger(UserManagementResource.class);
     private final UserExternalService userExternalService;
-    private final UserMapper userMapper;
-    public UserManagementResource(UserExternalService userExternalService, UserMapper userMapper) {
+    public UserManagementResource(UserExternalService userExternalService) {
         this.userExternalService = userExternalService;
-        this.userMapper = userMapper;
     }
 
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<AdminUserDTO>> createUser(@RequestBody AdminUserDTO userDTO) {
+        LOG.info("Creating user: {}", userDTO.getLogin());
         AdminUserDTO user = userExternalService.createUser(userDTO);
         return ResponseEntity.ok(
             ApiResponse.<AdminUserDTO>builder()
@@ -45,6 +47,7 @@ public class UserManagementResource {
     public ResponseEntity<ApiResponse<AdminUserDTO>> updateUser(
         @Valid @RequestBody AdminUserDTO userDTO
     ) {
+        LOG.info("Update user: {}", userDTO.getLogin());
         AdminUserDTO user = userExternalService.updateUser(userDTO);
         return ResponseEntity.ok(
             ApiResponse.<AdminUserDTO>builder()
@@ -57,6 +60,7 @@ public class UserManagementResource {
 
     @DeleteMapping("/delete/{username}")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable String username) {
+        LOG.info("Deleting user: {}", username);
         userExternalService.deleteUser(username);
         return ResponseEntity.ok( ApiResponse.<Void>builder()
             .status(ResponseStatus.SUCCESS)

@@ -56,6 +56,9 @@ public class Transaction implements Serializable {
     @Column(name = "duration")
     private Long duration;
 
+    @Column(name = "token_history_id")
+    private Long tokenHistoryId;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -214,6 +217,19 @@ public class Transaction implements Serializable {
         this.duration = duration;
     }
 
+    public Long getTokenHistoryId() {
+        return this.tokenHistoryId;
+    }
+
+    public Transaction tokenHistoryId(Long tokenHistoryId) {
+        this.setTokenHistoryId(tokenHistoryId);
+        return this;
+    }
+
+    public void setTokenHistoryId(Long tokenHistoryId) {
+        this.tokenHistoryId = tokenHistoryId;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -249,6 +265,7 @@ public class Transaction implements Serializable {
             ", username='" + getUsername() + "'" +
             ", userId=" + getUserId() +
             ", duration=" + getDuration() +
+            ", tokenHistoryId=" + getTokenHistoryId() +
             "}";
     }
 }

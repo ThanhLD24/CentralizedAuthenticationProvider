@@ -1,11 +1,11 @@
-id;action;status;message;device_info;created_date;client_ip;request_path;request_method;username;user_id;duration
-1;from;12487;whoa around ack;boo;2025-06-06T00:53:08;esteemed;out lest personalise;openly overload gah;oof whose sunny;3102;28677
-2;pink embody;14847;rigidly;ack indeed meh;2025-06-06T00:32:50;yippee;filter scary beyond;instantly psst;ligate absent;11294;5815
-3;fooey;17785;upside-down;near as chops;2025-06-05T21:05:39;psst meh;lazily;until unexpectedly yowza;apud;31377;21455
-4;because crooked;17253;following but;popularity admired slink;2025-06-05T19:08:12;assured considering via;psst;beneficial;jut per sharply;1236;1310
-5;awkwardly slink yahoo;23981;abaft after;before above;2025-06-05T17:06:36;quash dislocate;till into;generally lava;dirty aha downshift;9291;15885
-6;jaunty;15544;beyond;arbitrate;2025-06-06T13:37:53;critical often traditionalism;community whoever zowie;provided worldly;really yum;23600;13715
-7;polyester;12048;starboard sizzling lest;after;2025-06-05T18:16:30;against with;yum creative pearl;coordination well into;save;4643;3768
-8;whenever stack peaceful;27195;taxicab;kaleidoscopic preheat pigpen;2025-06-06T14:47:21;for ha pro;ugh than;swelter;vivacious duh;25224;29984
-9;shinny;12100;given measly;minus inventory;2025-06-06T11:47:41;up;woot cardboard;excluding across record;and;9325;10936
-10;pneumonia sheathe up;24558;edge;proselytise desk;2025-06-06T11:19:08;powerless;provided like ick;minus reach perp;apropos out ack;12668;30146
+id;action;status;message;device_info;created_date;client_ip;request_path;request_method;username;user_id;duration;token_history_id
+1;from;12487;whoa around ack;boo;2025-06-06T00:53:08;esteemed;out lest personalise;openly overload gah;oof whose sunny;3102;28677;13728
+2;bare;5777;airbrush provision ack;so;2025-06-05T20:35:57;till shameful filter;plump marksman instantly;lamp ligate absent;concerning through;22862;31333;4143
+3;haircut economise oof;4864;failing;meh ham;2025-06-06T02:33:13;until unexpectedly yowza;apud;easily yippee ah;joshingly;19044;12124;4024
+4;popularity admired slink;4023;assured considering via;psst;2025-06-05T21:26:40;whistle jut per;arbitrate because wallop;while unto whoa;debit;10022;22194;3222
+5;above without so;8230;till into;generally lava;2025-06-06T10:16:32;excepting;off log parade;sternly past;helplessly mmm ew;26582;2425;3971
+6;ha er stir-fry;29637;provided worldly;really yum;2025-06-06T09:28:31;anti helplessly;weary ah;inquisitively;aha;8193;14206;2776
+7;towards yum creative;15964;accomplished;duh crossly;2025-06-06T15:39:24;velocity righteously;uh-huh motor svelte;taxicab;kaleidoscopic preheat pigpen;30855;28028;3729
+8;ick shinny newsletter;4965;gah cheerfully;pneumonia rewarding;2025-06-06T13:11:32;closely;likely given;probable;sate;24921;2349;17499
+9;the flawless;6469;yowza;tightly utter;2025-06-05T23:26:13;toward delightfully aside;faraway proselytise than;pfft where;even powerless;22054;17622;3626
+10;aboard traffic;22802;unbearably;than;2025-06-06T01:46:24;perp clueless how;ack break;yuck;solemnly accredit;9894;14374;15527

@@ -1,12 +1,14 @@
 package com.esoft.service.impl;
 
 import com.esoft.domain.User;
+import com.esoft.service.errors.IdNotEmptyException;
+import com.esoft.service.errors.LoginAlreadyUsedException;
+import com.esoft.service.errors.UserNotFoundException;
 import com.esoft.repository.UserRepository;
 import com.esoft.service.UserExternalService;
 import com.esoft.service.UserInternalService;
 import com.esoft.service.dto.AdminUserDTO;
 import com.esoft.service.mapper.UserMapper;
-import com.esoft.web.rest.errors.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,22 +39,31 @@ public class UserExternalServiceImpl implements UserExternalService {
 
     @Override
     public AdminUserDTO updateUser(AdminUserDTO userDTO) {
-        Optional<User> existingUser = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
-        if (existingUser.isPresent() && (!existingUser.orElseThrow().getId().equals(userDTO.getId()))) {
-            throw new LoginAlreadyUsedException();
+        Optional<User> existingUserOpt = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
+        if (existingUserOpt.isPresent()) {
+            User existingUser = existingUserOpt.get();
+            if (!existingUser.getId().equals(userDTO.getId())) {
+                throw new LoginAlreadyUsedException();
+            }
         }
         return userInternalService.updateUser(userDTO).get();
     }
 
     @Override
     public void deleteUser(String username) {
-        userInternalService.deleteUser(username);
+        userRepository
+            .findOneByLogin(username)
+            .map(user -> {
+                userRepository.delete(user);
+                return user;
+            })
+            .orElseThrow(() -> new UserNotFoundException(username));
     }
 
     @Override
     public AdminUserDTO findUserByUsername(String username) {
         Optional<User> user = userRepository.findOneWithAuthoritiesByLogin(username);
-        if (!user.isPresent())
+        if (user.isEmpty())
             throw new UserNotFoundException(username);
         return mapper.userToAdminUserDTO(user.get());
     }

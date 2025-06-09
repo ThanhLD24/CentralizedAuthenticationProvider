@@ -57,7 +57,8 @@ public class TransactionAsserts {
             .satisfies(a -> assertThat(a.getRequestMethod()).as("check requestMethod").isEqualTo(expected.getRequestMethod()))
             .satisfies(a -> assertThat(a.getUsername()).as("check username").isEqualTo(expected.getUsername()))
             .satisfies(a -> assertThat(a.getUserId()).as("check userId").isEqualTo(expected.getUserId()))
-            .satisfies(a -> assertThat(a.getDuration()).as("check duration").isEqualTo(expected.getDuration()));
+            .satisfies(a -> assertThat(a.getDuration()).as("check duration").isEqualTo(expected.getDuration()))
+            .satisfies(a -> assertThat(a.getTokenHistoryId()).as("check tokenHistoryId").isEqualTo(expected.getTokenHistoryId()));
     }
 
     /**

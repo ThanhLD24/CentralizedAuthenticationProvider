@@ -42,6 +42,7 @@ type TransactionFormGroupContent = {
   username: FormControl<TransactionFormRawValue['username']>;
   userId: FormControl<TransactionFormRawValue['userId']>;
   duration: FormControl<TransactionFormRawValue['duration']>;
+  tokenHistoryId: FormControl<TransactionFormRawValue['tokenHistoryId']>;
 };
 
 export type TransactionFormGroup = FormGroup<TransactionFormGroupContent>;
@@ -72,6 +73,7 @@ export class TransactionFormService {
       username: new FormControl(transactionRawValue.username),
       userId: new FormControl(transactionRawValue.userId),
       duration: new FormControl(transactionRawValue.duration),
+      tokenHistoryId: new FormControl(transactionRawValue.tokenHistoryId),
     });
   }
 

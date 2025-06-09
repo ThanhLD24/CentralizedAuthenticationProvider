@@ -1,6 +1,7 @@
 package com.esoft.repository;
 
 import com.esoft.domain.TokenHistory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 

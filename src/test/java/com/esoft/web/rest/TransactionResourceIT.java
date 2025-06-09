@@ -70,6 +70,9 @@ class TransactionResourceIT {
     private static final Long DEFAULT_DURATION = 1L;
     private static final Long UPDATED_DURATION = 2L;
 
+    private static final Long DEFAULT_TOKEN_HISTORY_ID = 1L;
+    private static final Long UPDATED_TOKEN_HISTORY_ID = 2L;
+
     private static final String ENTITY_API_URL = "/api/transactions";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -113,7 +116,8 @@ class TransactionResourceIT {
             .requestMethod(DEFAULT_REQUEST_METHOD)
             .username(DEFAULT_USERNAME)
             .userId(DEFAULT_USER_ID)
-            .duration(DEFAULT_DURATION);
+            .duration(DEFAULT_DURATION)
+            .tokenHistoryId(DEFAULT_TOKEN_HISTORY_ID);
     }
 
     /**
@@ -134,7 +138,8 @@ class TransactionResourceIT {
             .requestMethod(UPDATED_REQUEST_METHOD)
             .username(UPDATED_USERNAME)
             .userId(UPDATED_USER_ID)
-            .duration(UPDATED_DURATION);
+            .duration(UPDATED_DURATION)
+            .tokenHistoryId(UPDATED_TOKEN_HISTORY_ID);
     }
 
     @BeforeEach
@@ -214,7 +219,8 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.[*].requestMethod").value(hasItem(DEFAULT_REQUEST_METHOD)))
             .andExpect(jsonPath("$.[*].username").value(hasItem(DEFAULT_USERNAME)))
             .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
-            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION.intValue())));
+            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION.intValue())))
+            .andExpect(jsonPath("$.[*].tokenHistoryId").value(hasItem(DEFAULT_TOKEN_HISTORY_ID.intValue())));
     }
 
     @Test
@@ -239,7 +245,8 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.requestMethod").value(DEFAULT_REQUEST_METHOD))
             .andExpect(jsonPath("$.username").value(DEFAULT_USERNAME))
             .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()))
-            .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION.intValue()));
+            .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION.intValue()))
+            .andExpect(jsonPath("$.tokenHistoryId").value(DEFAULT_TOKEN_HISTORY_ID.intValue()));
     }
 
     @Test
@@ -272,7 +279,8 @@ class TransactionResourceIT {
             .requestMethod(UPDATED_REQUEST_METHOD)
             .username(UPDATED_USERNAME)
             .userId(UPDATED_USER_ID)
-            .duration(UPDATED_DURATION);
+            .duration(UPDATED_DURATION)
+            .tokenHistoryId(UPDATED_TOKEN_HISTORY_ID);
         TransactionDTO transactionDTO = transactionMapper.toDto(updatedTransaction);
 
         restTransactionMockMvc
@@ -367,7 +375,8 @@ class TransactionResourceIT {
             .status(UPDATED_STATUS)
             .clientIp(UPDATED_CLIENT_IP)
             .requestMethod(UPDATED_REQUEST_METHOD)
-            .userId(UPDATED_USER_ID);
+            .userId(UPDATED_USER_ID)
+            .tokenHistoryId(UPDATED_TOKEN_HISTORY_ID);
 
         restTransactionMockMvc
             .perform(
@@ -409,7 +418,8 @@ class TransactionResourceIT {
             .requestMethod(UPDATED_REQUEST_METHOD)
             .username(UPDATED_USERNAME)
             .userId(UPDATED_USER_ID)
-            .duration(UPDATED_DURATION);
+            .duration(UPDATED_DURATION)
+            .tokenHistoryId(UPDATED_TOKEN_HISTORY_ID);
 
         restTransactionMockMvc
             .perform(

@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@SpringBootTest(classes = { CentralizedAuthenticationProviderApp.class, JacksonConfiguration.class, AsyncSyncConfiguration.class })
-@EmbeddedSQL
+@SpringBootTest(classes = { CentralizedAuthenticationProviderApp.class, JacksonConfiguration.class, AsyncSyncConfiguration.class }, properties = "spring.liquibase.parameters.DATETIMETYPE=timestamp")
+//@EmbeddedSQL
 public @interface IntegrationTest {
 }

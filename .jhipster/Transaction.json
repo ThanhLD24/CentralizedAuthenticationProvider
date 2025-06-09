@@ -47,6 +47,10 @@
     {
       "fieldName": "duration",
       "fieldType": "Long"
+    },
+    {
+      "fieldName": "tokenHistoryId",
+      "fieldType": "Long"
     }
   ],
   "jpaMetamodelFiltering": false,

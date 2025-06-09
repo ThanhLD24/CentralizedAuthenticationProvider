@@ -23,7 +23,8 @@ public class TransactionTestSamples {
             .requestMethod("requestMethod1")
             .username("username1")
             .userId(1L)
-            .duration(1L);
+            .duration(1L)
+            .tokenHistoryId(1L);
     }
 
     public static Transaction getTransactionSample2() {
@@ -38,7 +39,8 @@ public class TransactionTestSamples {
             .requestMethod("requestMethod2")
             .username("username2")
             .userId(2L)
-            .duration(2L);
+            .duration(2L)
+            .tokenHistoryId(2L);
     }
 
     public static Transaction getTransactionRandomSampleGenerator() {
@@ -53,6 +55,7 @@ public class TransactionTestSamples {
             .requestMethod(UUID.randomUUID().toString())
             .username(UUID.randomUUID().toString())
             .userId(longCount.incrementAndGet())
-            .duration(longCount.incrementAndGet());
+            .duration(longCount.incrementAndGet())
+            .tokenHistoryId(longCount.incrementAndGet());
     }
 }

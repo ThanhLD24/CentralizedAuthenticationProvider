@@ -51,7 +51,7 @@ public class JWTUtil {
             validity = now.plus(this.tokenValidityInSeconds, ChronoUnit.SECONDS);
         }
 
-        // @formatter:off
+        // TODO: set application code in the JWT claims
         JwtClaimsSet.Builder builder = JwtClaimsSet.builder()
             .issuedAt(now)
             .expiresAt(validity)
@@ -74,7 +74,6 @@ public class JWTUtil {
             return false;
         }
     }
-
 
     public String createRefreshToken() {
         UUID uuid = UUID.randomUUID();

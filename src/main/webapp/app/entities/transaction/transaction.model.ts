@@ -13,6 +13,7 @@ export interface ITransaction {
   username?: string | null;
   userId?: number | null;
   duration?: number | null;
+  tokenHistoryId?: number | null;
 }
 
 export type NewTransaction = Omit<ITransaction, 'id'> & { id: null };

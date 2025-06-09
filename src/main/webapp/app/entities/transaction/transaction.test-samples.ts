@@ -7,11 +7,11 @@ export const sampleWithRequiredData: ITransaction = {
 };
 
 export const sampleWithPartialData: ITransaction = {
-  id: 23791,
-  status: 25264,
-  deviceInfo: 'schlep ugh underneath',
-  createdDate: dayjs('2025-06-06T06:30'),
-  userId: 21371,
+  id: 25264,
+  status: 26098,
+  deviceInfo: 'polished',
+  createdDate: dayjs('2025-06-06T10:14'),
+  userId: 16472,
 };
 
 export const sampleWithFullData: ITransaction = {
@@ -27,6 +27,7 @@ export const sampleWithFullData: ITransaction = {
   username: 'grubby boo',
   userId: 5774,
   duration: 30950,
+  tokenHistoryId: 25468,
 };
 
 export const sampleWithNewData: NewTransaction = {

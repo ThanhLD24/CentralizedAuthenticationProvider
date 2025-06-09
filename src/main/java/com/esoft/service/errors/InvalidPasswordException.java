@@ -1,4 +1,4 @@
-package com.esoft.web.rest.errors;
+package com.esoft.service.errors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.ErrorResponseException;

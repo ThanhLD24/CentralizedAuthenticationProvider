@@ -37,6 +37,13 @@ public class Authority implements Serializable, Persistable<String> {
         return this.name;
     }
 
+    public Authority() {
+    }
+
+    public Authority(String name) {
+        this.name = name;
+        this.isPersisted = true;
+    }
     public Authority name(String name) {
         this.setName(name);
         return this;

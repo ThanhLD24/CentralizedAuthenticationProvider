@@ -14,9 +14,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.esoft.web.rest.errors.EmailAlreadyUsedException;
-import com.esoft.web.rest.errors.InvalidPasswordException;
-import com.esoft.web.rest.errors.UsernameAlreadyUsedException;
+import com.esoft.service.errors.EmailAlreadyUsedException;
+import com.esoft.service.errors.InvalidPasswordException;
+import com.esoft.service.errors.UsernameAlreadyUsedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;

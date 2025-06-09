@@ -28,7 +28,8 @@
       "requestMethod": "Request Method",
       "username": "Username",
       "userId": "User Id",
-      "duration": "Duration"
+      "duration": "Duration",
+      "tokenHistoryId": "Token History Id"
     }
   }
 }

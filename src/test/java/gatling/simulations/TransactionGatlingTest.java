@@ -79,6 +79,7 @@ public class TransactionGatlingTest extends Simulation {
                                 ", \"username\": \"SAMPLE_TEXT\"" +
                                 ", \"userId\": 0" +
                                 ", \"duration\": 0" +
+                                ", \"tokenHistoryId\": 0" +
                                 "}"
                             )
                         )

@@ -8,6 +8,8 @@ import com.esoft.service.mapper.TokenHistoryMapper;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class TokenHistoryServiceImpl implements TokenHistoryService {
 
     private static final Logger LOG = LoggerFactory.getLogger(TokenHistoryServiceImpl.class);
-
     private final TokenHistoryRepository tokenHistoryRepository;
 
     private final TokenHistoryMapper tokenHistoryMapper;
@@ -32,6 +33,7 @@ public class TokenHistoryServiceImpl implements TokenHistoryService {
     }
 
     @Override
+    @CacheEvict(cacheNames = CACHE_FIND_ONE_BY_HASHED_TOKEN, key = "#tokenHistoryDTO.hashedToken")
     public TokenHistoryDTO save(TokenHistoryDTO tokenHistoryDTO) {
         LOG.debug("Request to save TokenHistory : {}", tokenHistoryDTO);
         TokenHistory tokenHistory = tokenHistoryMapper.toEntity(tokenHistoryDTO);
@@ -40,6 +42,7 @@ public class TokenHistoryServiceImpl implements TokenHistoryService {
     }
 
     @Override
+    @CacheEvict(cacheNames = CACHE_FIND_ONE_BY_HASHED_TOKEN, key = "#tokenHistoryDTO.hashedToken")
     public TokenHistoryDTO update(TokenHistoryDTO tokenHistoryDTO) {
         LOG.debug("Request to update TokenHistory : {}", tokenHistoryDTO);
         TokenHistory tokenHistory = tokenHistoryMapper.toEntity(tokenHistoryDTO);
@@ -77,8 +80,22 @@ public class TokenHistoryServiceImpl implements TokenHistoryService {
     }
 
     @Override
+//    @Cacheable(cacheNames = CACHE_FIND_ONE_BY_HASHED_TOKEN, key = "#hashedToken")
+    public Optional<TokenHistory> findOneByHashedToken(String hashedToken) {
+        return tokenHistoryRepository.findOneByHashedToken(hashedToken);
+    }
+
+    @Override
     public void delete(Long id) {
         LOG.debug("Request to delete TokenHistory : {}", id);
         tokenHistoryRepository.deleteById(id);
+    }
+
+    @Override
+    @CacheEvict(cacheNames = CACHE_FIND_ONE_BY_HASHED_TOKEN, key = "#tokenHistory.hashedToken")
+    public TokenHistoryDTO save(TokenHistory tokenHistory) {
+        LOG.debug("Request to save TokenHistory : {}", tokenHistory);
+        tokenHistory = tokenHistoryRepository.save(tokenHistory);
+        return tokenHistoryMapper.toDto(tokenHistory);
     }
 }

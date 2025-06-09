@@ -1,7 +1,8 @@
-package com.esoft.web.rest.errors;
+package com.esoft.web.filter;
 
 import static org.springframework.core.annotation.AnnotatedElementUtils.findMergedAnnotation;
 
+import com.esoft.service.errors.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.Arrays;

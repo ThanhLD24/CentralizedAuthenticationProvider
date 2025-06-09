@@ -34,6 +34,8 @@ public class TransactionDTO implements Serializable {
 
     private Long duration;
 
+    private Long tokenHistoryId;
+
     public Long getId() {
         return id;
     }
@@ -130,6 +132,14 @@ public class TransactionDTO implements Serializable {
         this.duration = duration;
     }
 
+    public Long getTokenHistoryId() {
+        return tokenHistoryId;
+    }
+
+    public void setTokenHistoryId(Long tokenHistoryId) {
+        this.tokenHistoryId = tokenHistoryId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -167,6 +177,7 @@ public class TransactionDTO implements Serializable {
             ", username='" + getUsername() + "'" +
             ", userId=" + getUserId() +
             ", duration=" + getDuration() +
+            ", tokenHistoryId=" + getTokenHistoryId() +
             "}";
     }
 }
