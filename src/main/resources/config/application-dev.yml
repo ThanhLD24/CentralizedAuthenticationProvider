@@ -55,11 +55,38 @@ spring:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
     cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 100702042823-q5qs0g2jlcvgi998b4qoa5q3d2ka2rj7.apps.googleusercontent.com
+            client-secret: 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
+            scope: openid, profile, email
+          facebook:
+            client-id: YOUR_FACEBOOK_CLIENT_ID
+            client-secret: YOUR_FACEBOOK_CLIENT_SECRET
+            scope: public_profile,email
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+          facebook:
+            authorization-uri: https://www.facebook.com/dialog/oauth
+            token-uri: https://graph.facebook.com/oauth/access_token
+            user-info-uri: https://graph.facebook.com/me?fields=id,name,email
 
 server:
   port: 8080
   # make sure requests the proxy uri instead of the server one
   forward-headers-strategy: native
+  ssl:
+      enabled: true
+      key-store: classpath:config/tls/keystore.p12
+      key-store-type: PKCS12
+      key-store-password: password # change this to your keystore password
+      key-alias: selfsigned
 
 # ===================================================================
 # JHipster specific properties

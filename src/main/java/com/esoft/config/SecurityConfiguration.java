@@ -3,6 +3,7 @@ package com.esoft.config;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 import com.esoft.security.*;
+import com.esoft.security.oauth2.CustomOAuth2SuccessHandler;
 import com.esoft.web.filter.SpaWebFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,9 +28,11 @@ import tech.jhipster.config.JHipsterProperties;
 public class SecurityConfiguration {
 
     private final JHipsterProperties jHipsterProperties;
+    private final CustomOAuth2SuccessHandler successHandler;
 
-    public SecurityConfiguration(JHipsterProperties jHipsterProperties) {
+    public SecurityConfiguration(JHipsterProperties jHipsterProperties, CustomOAuth2SuccessHandler successHandler) {
         this.jHipsterProperties = jHipsterProperties;
+        this.successHandler = successHandler;
     }
 
     @Bean
@@ -57,6 +60,8 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(authz ->
                 // prettier-ignore
                 authz
+
+                    .requestMatchers("api/oauth2/authorize/**", "/login/**", "/oauth2/callback/**").permitAll()
                     .requestMatchers(mvc.pattern("/index.html"), mvc.pattern("/*.js"), mvc.pattern("/*.txt"), mvc.pattern("/*.json"), mvc.pattern("/*.map"), mvc.pattern("/*.css")).permitAll()
                     .requestMatchers(mvc.pattern("/*.ico"), mvc.pattern("/*.png"), mvc.pattern("/*.svg"), mvc.pattern("/*.webapp")).permitAll()
                     .requestMatchers(mvc.pattern("/app/**")).permitAll()
@@ -84,7 +89,11 @@ public class SecurityConfiguration {
                     .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                     .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
             )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
+            .oauth2Login(oauth2 -> oauth2
+                .successHandler(successHandler)
+            );
+
         return http.build();
     }
 

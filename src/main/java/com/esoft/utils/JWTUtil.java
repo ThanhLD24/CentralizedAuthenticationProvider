@@ -1,7 +1,6 @@
 package com.esoft.utils;
 
 import com.esoft.security.DomainUserDetailsService;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -40,16 +39,15 @@ public class JWTUtil {
         this.jwtDecoder = jwtDecoder;
     }
 
-    public String createToken(Authentication authentication, boolean rememberMe) {
+    public long getTokenValidity(boolean rememberMe) {
+        return rememberMe ? tokenValidityInSecondsForRememberMe : tokenValidityInSeconds;
+    }
+
+    public String createAccessToken(Authentication authentication, boolean rememberMe) {
         String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
 
         Instant now = Instant.now();
-        Instant validity;
-        if (rememberMe) {
-            validity = now.plus(this.tokenValidityInSecondsForRememberMe, ChronoUnit.SECONDS);
-        } else {
-            validity = now.plus(this.tokenValidityInSeconds, ChronoUnit.SECONDS);
-        }
+        Instant validity = now.plusSeconds(getTokenValidity(rememberMe));
 
         // TODO: set application code in the JWT claims
         JwtClaimsSet.Builder builder = JwtClaimsSet.builder()

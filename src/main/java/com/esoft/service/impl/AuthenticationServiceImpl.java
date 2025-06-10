@@ -8,6 +8,7 @@ import com.esoft.domain.enumeration.TokenType;
 import com.esoft.repository.UserRepository;
 import com.esoft.service.AuthenticationService;
 import com.esoft.service.TokenHistoryService;
+import com.esoft.service.UserInternalService;
 import com.esoft.service.dto.AdminUserDTO;
 import com.esoft.service.dto.AuthorizationDTO;
 import com.esoft.service.dto.TokenResponseDTO;
@@ -20,8 +21,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tech.jhipster.security.RandomUtil;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -31,14 +35,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JWTUtil jwtUtil;
     private final UserRepository userRepository;
+    private final UserInternalService userInternalService;
     private final TokenHistoryService tokenHistoryService;
     private final UserMapper userMapper;
     public AuthenticationServiceImpl(AuthenticationManagerBuilder authenticationManagerBuilder, JWTUtil jwtUtil,
-                                     UserRepository userRepository, TokenHistoryService tokenHistoryService,
+                                     UserRepository userRepository, UserInternalService userInternalService, TokenHistoryService tokenHistoryService,
                                      UserMapper userMapper) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
+        this.userInternalService = userInternalService;
         this.tokenHistoryService = tokenHistoryService;
         this.userMapper = userMapper;
     }
@@ -47,19 +53,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Transactional
     public TokenResponseDTO createToken(String username, String password) {
         boolean rememberMe = false;
-
         Authentication authentication = authenticateUser(username, password);
-
-        User user = userRepository.findOneWithAuthoritiesByLogin(authentication.getName())
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        String jwt = jwtUtil.createToken(authentication, rememberMe);
-        String refreshTokenValue = jwtUtil.createRefreshToken();
-
-        saveAccessToken(jwt, user);
-        saveRefreshToken(refreshTokenValue, user);
-
-        return new TokenResponseDTO(jwt, refreshTokenValue);
+        return createTokenByAuthentication(authentication, rememberMe);
     }
 
     private Authentication authenticateUser(String username, String password) {
@@ -132,13 +127,58 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 user.getAuthorities(), user.getLogin(), null);
 
-        String newAccessToken = jwtUtil.createToken(authentication, false);
+        String newAccessToken = jwtUtil.createAccessToken(authentication, false);
         String newRefreshToken = jwtUtil.createRefreshToken();
 
         saveAccessToken(newAccessToken, user);
         saveRefreshToken(newRefreshToken, user);
         revokeOldToken(tokenHistory);
         return new TokenResponseDTO(newAccessToken, newRefreshToken);
+    }
+
+    @Override
+    public TokenResponseDTO createTokenFromOAuth2(OAuth2AuthenticationToken authenticationToken) {
+        OAuth2AuthenticationToken oauthToken = authenticationToken;
+        OAuth2User user = oauthToken.getPrincipal();
+
+        String email = user.getAttribute("email");
+        String name = user.getAttribute("name");
+        String provider = oauthToken.getAuthorizedClientRegistrationId();
+        if (email == null || email.isEmpty()) {
+            throw new UnauthorizedException("Email is required for OAuth2 authentication");
+        }
+        handleRegisterUser(email, name, provider);
+        return createTokenByAuthentication(authenticationToken, false);
+    }
+
+    private TokenResponseDTO createTokenByAuthentication(Authentication authentication, boolean rememberMe) {
+        User user = userRepository.findOneWithAuthoritiesByLogin(authentication.getName())
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        String jwt = jwtUtil.createAccessToken(authentication, rememberMe);
+        String refreshTokenValue = jwtUtil.createRefreshToken();
+
+        saveAccessToken(jwt, user);
+        saveRefreshToken(refreshTokenValue, user);
+
+        return new TokenResponseDTO(jwt, refreshTokenValue, jwtUtil.getTokenValidity(rememberMe));
+    }
+
+    private void handleRegisterUser(String email, String name, String provider) {
+        Optional<User> appUser = userRepository.findOneByLogin(email);
+        if (appUser.isEmpty()) {
+
+            AdminUserDTO adminUserDTO = new AdminUserDTO();
+            adminUserDTO.setEmail(email);
+            adminUserDTO.setLogin(email);
+            adminUserDTO.setFirstName(name);
+//            adminUserDTO.setProvider(provider);
+            adminUserDTO.setActivated(true);
+            adminUserDTO.setLangKey("en");
+
+            userInternalService.registerUser(adminUserDTO, RandomUtil.generatePassword());
+            //TODO: send email notification for new user registration
+        }
     }
 
     private void saveAccessToken(String jwt, User user) {

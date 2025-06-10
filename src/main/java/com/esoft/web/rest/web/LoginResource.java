@@ -44,7 +44,7 @@ public class LoginResource {
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtil.createToken(authentication, loginVM.isRememberMe());
+        String jwt = jwtUtil.createAccessToken(authentication, loginVM.isRememberMe());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBearerAuth(jwt);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);

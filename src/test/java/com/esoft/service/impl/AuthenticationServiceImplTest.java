@@ -75,7 +75,7 @@ class AuthenticationServiceImplTest {
         when(authenticationManager.authenticate(authToken)).thenReturn(authentication);
         when(authentication.getName()).thenReturn(username);
         when(userRepository.findOneWithAuthoritiesByLogin(username)).thenReturn(Optional.of(user));
-        when(jwtUtil.createToken(authentication, rememberMe)).thenReturn("jwt-token");
+        when(jwtUtil.createAccessToken(authentication, rememberMe)).thenReturn("jwt-token");
         when(jwtUtil.createRefreshToken()).thenReturn("refresh-token");
         when(jwtUtil.hashToken(anyString())).thenReturn("hashed");
 
@@ -141,7 +141,7 @@ class AuthenticationServiceImplTest {
 
         when(jwtUtil.hashToken(refreshToken)).thenReturn(hashedRefreshToken);
         when(tokenHistoryService.findOneByHashedToken(hashedRefreshToken)).thenReturn(Optional.of(th));
-        when(jwtUtil.createToken(any(), eq(false))).thenReturn("new-access-token");
+        when(jwtUtil.createAccessToken(any(), eq(false))).thenReturn("new-access-token");
         when(jwtUtil.createRefreshToken()).thenReturn("new-refresh-token");
 
         TokenResponseDTO dto = authenticationService.refreshToken(refreshToken);

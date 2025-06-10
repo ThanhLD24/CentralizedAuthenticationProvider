@@ -4,6 +4,8 @@ import com.esoft.config.Constants;
 import com.esoft.domain.Authority;
 import com.esoft.domain.User;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 /**
  * A DTO representing a user, with his authorities.
  */
+@Data
+@Builder
 public class AdminUserDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;

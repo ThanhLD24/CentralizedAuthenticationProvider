@@ -76,16 +76,16 @@ public class TransactionLogFilter extends OncePerRequestFilter {
     //TODO: using async instead of synchronous logging
     private void saveTransactionLog(String method, String path, Long userId, Long tokenId, String username,
                                    String clientIp, int status, long duration) {
-        Transaction log = new Transaction();
-        log.setRequestMethod(method);
-        log.setRequestPath(path);
-        log.setTokenHistoryId(tokenId);
-        log.setUserId(userId);
-        log.setUsername(username);
-        log.setClientIp(clientIp);
-        log.setStatus(status);
-        log.setDuration(duration);
-        log.setCreatedDate(Instant.now());
-        transactionRepository.save(log);
+//        Transaction log = new Transaction();
+//        log.setRequestMethod(method);
+//        log.setRequestPath(path);
+//        log.setTokenHistoryId(tokenId);
+//        log.setUserId(userId);
+//        log.setUsername(username);
+//        log.setClientIp(clientIp);
+//        log.setStatus(status);
+//        log.setDuration(duration);
+//        log.setCreatedDate(Instant.now());
+//        transactionRepository.save(log);
     }
 }
