@@ -147,6 +147,7 @@ public class UserInternalService {
         return true;
     }
 
+    @Transactional
     public User createUser(AdminUserDTO userDTO) {
         User user = new User();
         user.setLogin(userDTO.getLogin().toLowerCase());

@@ -37,6 +37,7 @@ type ApplicationSystemFormGroupContent = {
   createdDate: FormControl<ApplicationSystemFormRawValue['createdDate']>;
   updatedDate: FormControl<ApplicationSystemFormRawValue['updatedDate']>;
   active: FormControl<ApplicationSystemFormRawValue['active']>;
+  hashedSecretKey: FormControl<ApplicationSystemFormRawValue['hashedSecretKey']>;
   users: FormControl<ApplicationSystemFormRawValue['users']>;
 };
 
@@ -62,6 +63,7 @@ export class ApplicationSystemFormService {
       createdDate: new FormControl(applicationSystemRawValue.createdDate),
       updatedDate: new FormControl(applicationSystemRawValue.updatedDate),
       active: new FormControl(applicationSystemRawValue.active),
+      hashedSecretKey: new FormControl(applicationSystemRawValue.hashedSecretKey),
       users: new FormControl(applicationSystemRawValue.users ?? []),
     });
   }

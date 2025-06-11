@@ -13,20 +13,5 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface ApplicationSystemMapper extends EntityMapper<ApplicationSystemDTO, ApplicationSystem> {
-    @Mapping(target = "users", source = "users", qualifiedByName = "userLoginSet")
-    ApplicationSystemDTO toDto(ApplicationSystem s);
 
-    @Mapping(target = "removeUser", ignore = true)
-    ApplicationSystem toEntity(ApplicationSystemDTO applicationSystemDTO);
-
-    @Named("userLogin")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "login", source = "login")
-    UserDTO toDtoUserLogin(User user);
-
-    @Named("userLoginSet")
-    default Set<UserDTO> toDtoUserLoginSet(Set<User> user) {
-        return user.stream().map(this::toDtoUserLogin).collect(Collectors.toSet());
-    }
 }

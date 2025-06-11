@@ -2,6 +2,7 @@ package com.esoft.service;
 
 import com.esoft.service.dto.AuthorizationDTO;
 import com.esoft.service.dto.TokenResponseDTO;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -15,5 +16,5 @@ public interface AuthenticationService {
 
     TokenResponseDTO refreshToken(String refreshToken);
 
-    TokenResponseDTO createTokenFromOAuth2(OAuth2AuthenticationToken authenticationToken);
+    TokenResponseDTO createToken(Authentication authentication);
 }

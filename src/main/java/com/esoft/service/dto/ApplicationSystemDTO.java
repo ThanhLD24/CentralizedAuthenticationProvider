@@ -24,6 +24,8 @@ public class ApplicationSystemDTO implements Serializable {
 
     private Boolean active;
 
+    private String hashedSecretKey;
+
     private Set<UserDTO> users = new HashSet<>();
 
     public Long getId() {
@@ -74,6 +76,14 @@ public class ApplicationSystemDTO implements Serializable {
         this.active = active;
     }
 
+    public String getHashedSecretKey() {
+        return hashedSecretKey;
+    }
+
+    public void setHashedSecretKey(String hashedSecretKey) {
+        this.hashedSecretKey = hashedSecretKey;
+    }
+
     public Set<UserDTO> getUsers() {
         return users;
     }
@@ -113,6 +123,7 @@ public class ApplicationSystemDTO implements Serializable {
             ", createdDate='" + getCreatedDate() + "'" +
             ", updatedDate='" + getUpdatedDate() + "'" +
             ", active='" + getActive() + "'" +
+            ", hashedSecretKey='" + getHashedSecretKey() + "'" +
             ", users=" + getUsers() +
             "}";
     }

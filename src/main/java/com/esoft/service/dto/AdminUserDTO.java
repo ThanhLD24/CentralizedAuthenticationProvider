@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
  * A DTO representing a user, with his authorities.
  */
 @Data
-@Builder
 public class AdminUserDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -6,10 +6,13 @@ import com.esoft.service.ApplicationSystemService;
 import com.esoft.service.dto.ApplicationSystemDTO;
 import com.esoft.service.mapper.ApplicationSystemMapper;
 import java.util.Optional;
+
+import com.esoft.utils.JWTUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,13 +28,15 @@ public class ApplicationSystemServiceImpl implements ApplicationSystemService {
     private final ApplicationSystemRepository applicationSystemRepository;
 
     private final ApplicationSystemMapper applicationSystemMapper;
+    private final JWTUtil jwtUtil;
 
     public ApplicationSystemServiceImpl(
-        ApplicationSystemRepository applicationSystemRepository,
-        ApplicationSystemMapper applicationSystemMapper
+            ApplicationSystemRepository applicationSystemRepository,
+            ApplicationSystemMapper applicationSystemMapper, JWTUtil jwtUtil
     ) {
         this.applicationSystemRepository = applicationSystemRepository;
         this.applicationSystemMapper = applicationSystemMapper;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -83,5 +88,13 @@ public class ApplicationSystemServiceImpl implements ApplicationSystemService {
     public void delete(Long id) {
         LOG.debug("Request to delete ApplicationSystem : {}", id);
         applicationSystemRepository.deleteById(id);
+    }
+
+
+    @Override
+    public Optional<ApplicationSystemDTO> findBySecretKeyAndActive(String secretKey, boolean active) {
+        String hashedSecretKey = jwtUtil.hashToken(secretKey);
+        return applicationSystemRepository.findByHashedSecretKeyAndActive(hashedSecretKey, active)
+            .map(applicationSystemMapper::toDto);
     }
 }

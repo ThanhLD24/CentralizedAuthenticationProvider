@@ -40,14 +40,9 @@ public class ApplicationSystem implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "rel_application_system__user",
-        joinColumns = @JoinColumn(name = "application_system_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<User> users = new HashSet<>();
+    @Column(name = "hashed_secret_key")
+    private String hashedSecretKey;
+
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -129,28 +124,19 @@ public class ApplicationSystem implements Serializable {
         this.active = active;
     }
 
-    public Set<User> getUsers() {
-        return this.users;
+    public String getHashedSecretKey() {
+        return this.hashedSecretKey;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-    public ApplicationSystem users(Set<User> users) {
-        this.setUsers(users);
+    public ApplicationSystem hashedSecretKey(String hashedSecretKey) {
+        this.setHashedSecretKey(hashedSecretKey);
         return this;
     }
 
-    public ApplicationSystem addUser(User user) {
-        this.users.add(user);
-        return this;
+    public void setHashedSecretKey(String hashedSecretKey) {
+        this.hashedSecretKey = hashedSecretKey;
     }
 
-    public ApplicationSystem removeUser(User user) {
-        this.users.remove(user);
-        return this;
-    }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -181,6 +167,7 @@ public class ApplicationSystem implements Serializable {
             ", createdDate='" + getCreatedDate() + "'" +
             ", updatedDate='" + getUpdatedDate() + "'" +
             ", active='" + getActive() + "'" +
+            ", hashedSecretKey='" + getHashedSecretKey() + "'" +
             "}";
     }
 }

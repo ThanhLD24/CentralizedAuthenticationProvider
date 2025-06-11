@@ -35,16 +35,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JWTUtil jwtUtil;
     private final UserRepository userRepository;
-    private final UserInternalService userInternalService;
     private final TokenHistoryService tokenHistoryService;
     private final UserMapper userMapper;
     public AuthenticationServiceImpl(AuthenticationManagerBuilder authenticationManagerBuilder, JWTUtil jwtUtil,
-                                     UserRepository userRepository, UserInternalService userInternalService, TokenHistoryService tokenHistoryService,
+                                     UserRepository userRepository, TokenHistoryService tokenHistoryService,
                                      UserMapper userMapper) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
-        this.userInternalService = userInternalService;
         this.tokenHistoryService = tokenHistoryService;
         this.userMapper = userMapper;
     }
@@ -52,9 +50,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     @Transactional
     public TokenResponseDTO createToken(String username, String password) {
-        boolean rememberMe = false;
         Authentication authentication = authenticateUser(username, password);
-        return createTokenByAuthentication(authentication, rememberMe);
+        return createToken(authentication);
     }
 
     private Authentication authenticateUser(String username, String password) {
@@ -110,6 +107,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     @Transactional
     public TokenResponseDTO refreshToken(String refreshToken) {
+        boolean rememberMe = false;
         if (refreshToken == null || refreshToken.isEmpty()) {
             throw new UnauthorizedException("Refresh token is invalid");
         }
@@ -127,31 +125,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 user.getAuthorities(), user.getLogin(), null);
 
-        String newAccessToken = jwtUtil.createAccessToken(authentication, false);
+        String newAccessToken = jwtUtil.createAccessToken(authentication, rememberMe);
         String newRefreshToken = jwtUtil.createRefreshToken();
 
         saveAccessToken(newAccessToken, user);
         saveRefreshToken(newRefreshToken, user);
         revokeOldToken(tokenHistory);
-        return new TokenResponseDTO(newAccessToken, newRefreshToken);
+        return new TokenResponseDTO(newAccessToken, newRefreshToken, jwtUtil.getTokenValidity(rememberMe));
     }
 
     @Override
-    public TokenResponseDTO createTokenFromOAuth2(OAuth2AuthenticationToken authenticationToken) {
-        OAuth2AuthenticationToken oauthToken = authenticationToken;
-        OAuth2User user = oauthToken.getPrincipal();
-
-        String email = user.getAttribute("email");
-        String name = user.getAttribute("name");
-        String provider = oauthToken.getAuthorizedClientRegistrationId();
-        if (email == null || email.isEmpty()) {
-            throw new UnauthorizedException("Email is required for OAuth2 authentication");
-        }
-        handleRegisterUser(email, name, provider);
-        return createTokenByAuthentication(authenticationToken, false);
-    }
-
-    private TokenResponseDTO createTokenByAuthentication(Authentication authentication, boolean rememberMe) {
+    public TokenResponseDTO createToken(Authentication authentication) {
+        boolean rememberMe = false;
         User user = userRepository.findOneWithAuthoritiesByLogin(authentication.getName())
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -164,22 +149,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new TokenResponseDTO(jwt, refreshTokenValue, jwtUtil.getTokenValidity(rememberMe));
     }
 
-    private void handleRegisterUser(String email, String name, String provider) {
-        Optional<User> appUser = userRepository.findOneByLogin(email);
-        if (appUser.isEmpty()) {
-
-            AdminUserDTO adminUserDTO = new AdminUserDTO();
-            adminUserDTO.setEmail(email);
-            adminUserDTO.setLogin(email);
-            adminUserDTO.setFirstName(name);
-//            adminUserDTO.setProvider(provider);
-            adminUserDTO.setActivated(true);
-            adminUserDTO.setLangKey("en");
-
-            userInternalService.registerUser(adminUserDTO, RandomUtil.generatePassword());
-            //TODO: send email notification for new user registration
-        }
-    }
 
     private void saveAccessToken(String jwt, User user) {
         TokenHistory accessToken = new TokenHistory();

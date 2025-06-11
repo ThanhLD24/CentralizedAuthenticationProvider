@@ -23,6 +23,10 @@
     {
       "fieldName": "active",
       "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "hashedSecretKey",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": false,

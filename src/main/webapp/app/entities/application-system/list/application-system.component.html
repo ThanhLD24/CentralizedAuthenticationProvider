@@ -75,6 +75,13 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
+            <th scope="col" jhiSortBy="hashedSecretKey">
+              <div class="d-flex">
+                <span jhiTranslate="centralizedAuthenticationProviderApp.applicationSystem.hashedSecretKey">Hashed Secret Key</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -89,6 +96,7 @@
               <td>{{ applicationSystem.createdDate | formatMediumDatetime }}</td>
               <td>{{ applicationSystem.updatedDate | formatMediumDatetime }}</td>
               <td>{{ applicationSystem.active }}</td>
+              <td>{{ applicationSystem.hashedSecretKey }}</td>
               <td class="text-end">
                 <div class="btn-group">
                   <a

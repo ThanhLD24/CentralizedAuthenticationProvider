@@ -75,6 +75,7 @@ public class ApplicationSystemGatlingTest extends Simulation {
                                 ", \"createdDate\": \"2020-01-01T00:00:00.000Z\"" +
                                 ", \"updatedDate\": \"2020-01-01T00:00:00.000Z\"" +
                                 ", \"active\": null" +
+                                ", \"hashedSecretKey\": \"SAMPLE_TEXT\"" +
                                 "}"
                             )
                         )

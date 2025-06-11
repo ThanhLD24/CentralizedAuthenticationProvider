@@ -4,6 +4,7 @@ import static com.esoft.domain.ApplicationSystemAsserts.*;
 import static com.esoft.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -14,11 +15,11 @@ import com.esoft.repository.UserRepository;
 import com.esoft.service.ApplicationSystemService;
 import com.esoft.service.dto.ApplicationSystemDTO;
 import com.esoft.service.mapper.ApplicationSystemMapper;
-import com.esoft.web.rest.web.ApplicationSystemResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.AfterEach;
@@ -29,6 +30,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -57,6 +60,9 @@ class ApplicationSystemResourceIT {
 
     private static final Boolean DEFAULT_ACTIVE = false;
     private static final Boolean UPDATED_ACTIVE = true;
+
+    private static final String DEFAULT_HASHED_SECRET_KEY = "AAAAAAAAAA";
+    private static final String UPDATED_HASHED_SECRET_KEY = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/application-systems";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -104,7 +110,8 @@ class ApplicationSystemResourceIT {
             .description(DEFAULT_DESCRIPTION)
             .createdDate(DEFAULT_CREATED_DATE)
             .updatedDate(DEFAULT_UPDATED_DATE)
-            .active(DEFAULT_ACTIVE);
+            .active(DEFAULT_ACTIVE)
+            .hashedSecretKey(DEFAULT_HASHED_SECRET_KEY);
     }
 
     /**
@@ -119,7 +126,8 @@ class ApplicationSystemResourceIT {
             .description(UPDATED_DESCRIPTION)
             .createdDate(UPDATED_CREATED_DATE)
             .updatedDate(UPDATED_UPDATED_DATE)
-            .active(UPDATED_ACTIVE);
+            .active(UPDATED_ACTIVE)
+            .hashedSecretKey(UPDATED_HASHED_SECRET_KEY);
     }
 
     @BeforeEach
@@ -193,10 +201,12 @@ class ApplicationSystemResourceIT {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())))
             .andExpect(jsonPath("$.[*].updatedDate").value(hasItem(DEFAULT_UPDATED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE)))
+            .andExpect(jsonPath("$.[*].hashedSecretKey").value(hasItem(DEFAULT_HASHED_SECRET_KEY)));
     }
 
-    @SuppressWarnings({ "unchecked" })
+
+
 
     @Test
     @Transactional
@@ -214,7 +224,8 @@ class ApplicationSystemResourceIT {
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()))
             .andExpect(jsonPath("$.updatedDate").value(DEFAULT_UPDATED_DATE.toString()))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE));
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE))
+            .andExpect(jsonPath("$.hashedSecretKey").value(DEFAULT_HASHED_SECRET_KEY));
     }
 
     @Test
@@ -241,7 +252,8 @@ class ApplicationSystemResourceIT {
             .description(UPDATED_DESCRIPTION)
             .createdDate(UPDATED_CREATED_DATE)
             .updatedDate(UPDATED_UPDATED_DATE)
-            .active(UPDATED_ACTIVE);
+            .active(UPDATED_ACTIVE)
+            .hashedSecretKey(UPDATED_HASHED_SECRET_KEY);
         ApplicationSystemDTO applicationSystemDTO = applicationSystemMapper.toDto(updatedApplicationSystem);
 
         restApplicationSystemMockMvc
@@ -367,7 +379,8 @@ class ApplicationSystemResourceIT {
             .description(UPDATED_DESCRIPTION)
             .createdDate(UPDATED_CREATED_DATE)
             .updatedDate(UPDATED_UPDATED_DATE)
-            .active(UPDATED_ACTIVE);
+            .active(UPDATED_ACTIVE)
+            .hashedSecretKey(UPDATED_HASHED_SECRET_KEY);
 
         restApplicationSystemMockMvc
             .perform(

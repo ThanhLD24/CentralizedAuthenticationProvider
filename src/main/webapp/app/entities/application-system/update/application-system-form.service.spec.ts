@@ -25,6 +25,7 @@ describe('ApplicationSystem Form Service', () => {
             createdDate: expect.any(Object),
             updatedDate: expect.any(Object),
             active: expect.any(Object),
+            hashedSecretKey: expect.any(Object),
             users: expect.any(Object),
           }),
         );
@@ -41,6 +42,7 @@ describe('ApplicationSystem Form Service', () => {
             createdDate: expect.any(Object),
             updatedDate: expect.any(Object),
             active: expect.any(Object),
+            hashedSecretKey: expect.any(Object),
             users: expect.any(Object),
           }),
         );

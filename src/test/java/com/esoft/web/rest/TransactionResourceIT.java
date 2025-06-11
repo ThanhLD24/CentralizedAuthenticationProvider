@@ -12,7 +12,6 @@ import com.esoft.domain.Transaction;
 import com.esoft.repository.TransactionRepository;
 import com.esoft.service.dto.TransactionDTO;
 import com.esoft.service.mapper.TransactionMapper;
-import com.esoft.web.rest.web.TransactionResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;

@@ -10,17 +10,18 @@ public class ApplicationSystemTestSamples {
     private static final AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     public static ApplicationSystem getApplicationSystemSample1() {
-        return new ApplicationSystem().id(1L).name("name1").description("description1");
+        return new ApplicationSystem().id(1L).name("name1").description("description1").hashedSecretKey("hashedSecretKey1");
     }
 
     public static ApplicationSystem getApplicationSystemSample2() {
-        return new ApplicationSystem().id(2L).name("name2").description("description2");
+        return new ApplicationSystem().id(2L).name("name2").description("description2").hashedSecretKey("hashedSecretKey2");
     }
 
     public static ApplicationSystem getApplicationSystemRandomSampleGenerator() {
         return new ApplicationSystem()
             .id(longCount.incrementAndGet())
             .name(UUID.randomUUID().toString())
-            .description(UUID.randomUUID().toString());
+            .description(UUID.randomUUID().toString())
+            .hashedSecretKey(UUID.randomUUID().toString());
     }
 }

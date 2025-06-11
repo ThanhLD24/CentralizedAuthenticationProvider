@@ -51,7 +51,8 @@ public class ApplicationSystemAsserts {
             .satisfies(a -> assertThat(a.getDescription()).as("check description").isEqualTo(expected.getDescription()))
             .satisfies(a -> assertThat(a.getCreatedDate()).as("check createdDate").isEqualTo(expected.getCreatedDate()))
             .satisfies(a -> assertThat(a.getUpdatedDate()).as("check updatedDate").isEqualTo(expected.getUpdatedDate()))
-            .satisfies(a -> assertThat(a.getActive()).as("check active").isEqualTo(expected.getActive()));
+            .satisfies(a -> assertThat(a.getActive()).as("check active").isEqualTo(expected.getActive()))
+            .satisfies(a -> assertThat(a.getHashedSecretKey()).as("check hashedSecretKey").isEqualTo(expected.getHashedSecretKey()));
     }
 
     /**

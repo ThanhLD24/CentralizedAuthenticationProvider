@@ -7,9 +7,10 @@ export const sampleWithRequiredData: IApplicationSystem = {
 };
 
 export const sampleWithPartialData: IApplicationSystem = {
-  id: 8510,
-  description: 'confiscate whistle bony',
-  updatedDate: dayjs('2025-06-06T11:56'),
+  id: 22174,
+  description: 'boo',
+  updatedDate: dayjs('2025-06-05T21:41'),
+  hashedSecretKey: 'substantial helplessly',
 };
 
 export const sampleWithFullData: IApplicationSystem = {
@@ -19,6 +20,7 @@ export const sampleWithFullData: IApplicationSystem = {
   createdDate: dayjs('2025-06-05T19:47'),
   updatedDate: dayjs('2025-06-06T09:03'),
   active: false,
+  hashedSecretKey: 'of ick vice',
 };
 
 export const sampleWithNewData: NewApplicationSystem = {

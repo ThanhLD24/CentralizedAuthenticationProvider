@@ -23,6 +23,7 @@
       "createdDate": "Created Date",
       "updatedDate": "Updated Date",
       "active": "Active",
+      "hashedSecretKey": "Hashed Secret Key",
       "user": "User"
     }
   }

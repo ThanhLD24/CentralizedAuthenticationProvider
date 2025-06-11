@@ -8,6 +8,7 @@ export interface IApplicationSystem {
   createdDate?: dayjs.Dayjs | null;
   updatedDate?: dayjs.Dayjs | null;
   active?: boolean | null;
+  hashedSecretKey?: string | null;
   users?: Pick<IUser, 'id' | 'login'>[] | null;
 }
 

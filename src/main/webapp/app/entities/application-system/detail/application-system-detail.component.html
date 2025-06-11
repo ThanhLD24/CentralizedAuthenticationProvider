@@ -37,6 +37,10 @@
           <dd>
             <span>{{ applicationSystemRef.active }}</span>
           </dd>
+          <dt><span jhiTranslate="centralizedAuthenticationProviderApp.applicationSystem.hashedSecretKey">Hashed Secret Key</span></dt>
+          <dd>
+            <span>{{ applicationSystemRef.hashedSecretKey }}</span>
+          </dd>
           <dt><span jhiTranslate="centralizedAuthenticationProviderApp.applicationSystem.user">User</span></dt>
           <dd>
             @for (user of applicationSystemRef.users; track $index; let last = $last) {

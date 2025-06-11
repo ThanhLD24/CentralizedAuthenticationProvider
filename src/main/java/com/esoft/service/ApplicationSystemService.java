@@ -41,6 +41,7 @@ public interface ApplicationSystemService {
      */
     Page<ApplicationSystemDTO> findAll(Pageable pageable);
 
+
     /**
      * Get the "id" applicationSystem.
      *
@@ -55,4 +56,6 @@ public interface ApplicationSystemService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Optional<ApplicationSystemDTO> findBySecretKeyAndActive(String secretKey, boolean active);
 }
