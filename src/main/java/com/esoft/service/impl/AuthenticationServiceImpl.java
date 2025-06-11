@@ -9,9 +9,7 @@ import com.esoft.repository.UserRepository;
 import com.esoft.service.AuthenticationService;
 import com.esoft.service.TokenHistoryService;
 import com.esoft.service.UserInternalService;
-import com.esoft.service.dto.AdminUserDTO;
-import com.esoft.service.dto.AuthorizationDTO;
-import com.esoft.service.dto.TokenResponseDTO;
+import com.esoft.service.dto.*;
 import com.esoft.service.mapper.UserMapper;
 import com.esoft.utils.JWTUtil;
 import com.esoft.service.errors.TokenAlreadyRevokedException;
@@ -49,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public TokenResponseDTO createToken(String username, String password) {
+    public AuthorizationDataDTO createToken(String username, String password) {
         Authentication authentication = authenticateUser(username, password);
         return createToken(authentication);
     }
@@ -74,39 +72,41 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         revokeOldToken(tokenHistory);
+        // TODO: revoke any associated refresh tokens
     }
 
     @Override
     @Transactional(readOnly = true)
-    public AuthorizationDTO validateToken(String token) {
+    public Result<AuthorizationDataDTO> validateToken(String token) {
         if (token == null || token.isEmpty()) {
-            return new AuthorizationDTO(false, Constants.AUTH_MESSAGE.TOKEN_INVALID, null);
+            return Result.failure(Constants.AUTH_MESSAGE.TOKEN_INVALID);
         }
 
         if (!jwtUtil.validateAccessToken(token)) {
-            return new AuthorizationDTO(false, Constants.AUTH_MESSAGE.TOKEN_INVALID, null);
+            return Result.failure(Constants.AUTH_MESSAGE.TOKEN_INVALID);
         }
 
         String hashedToken = jwtUtil.hashToken(token);
         Optional<TokenHistory> tokenHistoryOptional = tokenHistoryService.findOneByHashedToken(hashedToken);
-
         if (tokenHistoryOptional.isEmpty()) {
-            return new AuthorizationDTO(false, Constants.AUTH_MESSAGE.TOKEN_INVALID, null);
+            return Result.failure(Constants.AUTH_MESSAGE.TOKEN_NOT_FOUND);
         }
 
         TokenHistory tokenHistory = tokenHistoryOptional.get();
-
-        if (tokenHistory.getStatus() != TokenStatus.ACTIVE) {
-            return new AuthorizationDTO(false, Constants.AUTH_MESSAGE.TOKEN_REVOKED, null);
+        if (tokenHistory.getStatus() == TokenStatus.REVOKED) {
+            return Result.failure(Constants.AUTH_MESSAGE.TOKEN_REVOKED);
         }
 
-        AdminUserDTO authorizationData = userMapper.userToAdminUserDTO(tokenHistory.getUser());
-        return new AuthorizationDTO(true, Constants.AUTH_MESSAGE.TOKEN_VALID, authorizationData);
+        return Result.success(
+            new AuthorizationDataDTO(
+                userMapper.userToAdminUserDTO(tokenHistory.getUser())),
+            Constants.AUTH_MESSAGE.TOKEN_VALID
+        );
     }
 
     @Override
     @Transactional
-    public TokenResponseDTO refreshToken(String refreshToken) {
+    public AuthorizationDataDTO refreshToken(String refreshToken) {
         boolean rememberMe = false;
         if (refreshToken == null || refreshToken.isEmpty()) {
             throw new UnauthorizedException("Refresh token is invalid");
@@ -131,11 +131,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         saveAccessToken(newAccessToken, user);
         saveRefreshToken(newRefreshToken, user);
         revokeOldToken(tokenHistory);
-        return new TokenResponseDTO(newAccessToken, newRefreshToken, jwtUtil.getTokenValidity(rememberMe));
+
+
+        return initAuthorizationData(user, newAccessToken, newRefreshToken);
     }
 
     @Override
-    public TokenResponseDTO createToken(Authentication authentication) {
+    public AuthorizationDataDTO createToken(Authentication authentication) {
         boolean rememberMe = false;
         User user = userRepository.findOneWithAuthoritiesByLogin(authentication.getName())
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -146,7 +148,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         saveAccessToken(jwt, user);
         saveRefreshToken(refreshTokenValue, user);
 
-        return new TokenResponseDTO(jwt, refreshTokenValue, jwtUtil.getTokenValidity(rememberMe));
+        return initAuthorizationData(user, jwt, refreshTokenValue);
+    }
+
+    private AuthorizationDataDTO initAuthorizationData(User user, String accessToken, String refreshToken) {
+        AuthorizationDataDTO authorizationData = new AuthorizationDataDTO();
+        authorizationData.setUser(userMapper.userToAdminUserDTO(user));
+        authorizationData.setToken(new TokenResponseDTO(accessToken, refreshToken, jwtUtil.getTokenValidity(false)));
+        return authorizationData;
     }
 
 

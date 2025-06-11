@@ -7,6 +7,8 @@ import com.esoft.domain.enumeration.TokenType;
 import com.esoft.repository.UserRepository;
 import com.esoft.service.TokenHistoryService;
 import com.esoft.service.dto.AuthorizationDTO;
+import com.esoft.service.dto.AuthorizationDataDTO;
+import com.esoft.service.dto.Result;
 import com.esoft.service.dto.TokenResponseDTO;
 import com.esoft.service.mapper.UserMapper;
 import com.esoft.utils.JWTUtil;
@@ -79,10 +81,10 @@ class AuthenticationServiceImplTest {
         when(jwtUtil.createRefreshToken()).thenReturn("refresh-token");
         when(jwtUtil.hashToken(anyString())).thenReturn("hashed");
 
-        TokenResponseDTO response = authenticationService.createToken(username, password);
+        AuthorizationDataDTO response = authenticationService.createToken(username, password);
 
-        assertEquals("jwt-token", response.getAccessToken());
-        assertEquals("refresh-token", response.getRefreshToken());
+        assertEquals("jwt-token", response.getToken().getAccessToken());
+        assertEquals("refresh-token", response.getToken().getRefreshToken());
         verify(tokenHistoryService, times(2)).save(any(TokenHistory.class));
     }
 
@@ -116,8 +118,8 @@ class AuthenticationServiceImplTest {
 
     @Test
     void validateToken_shouldReturnFalse_whenTokenEmpty() {
-        AuthorizationDTO result = authenticationService.validateToken("");
-        assertFalse(result.isAuthorized());
+        Result<AuthorizationDataDTO> result = authenticationService.validateToken("");
+        assertFalse(result.isSuccess());
     }
 
     @Test
@@ -144,9 +146,9 @@ class AuthenticationServiceImplTest {
         when(jwtUtil.createAccessToken(any(), eq(false))).thenReturn("new-access-token");
         when(jwtUtil.createRefreshToken()).thenReturn("new-refresh-token");
 
-        TokenResponseDTO dto = authenticationService.refreshToken(refreshToken);
+        AuthorizationDataDTO dto = authenticationService.refreshToken(refreshToken);
 
-        assertEquals("new-access-token", dto.getAccessToken());
-        assertEquals("new-refresh-token", dto.getRefreshToken());
+        assertEquals("new-access-token", dto.getToken().getAccessToken());
+        assertEquals("new-refresh-token", dto.getToken().getRefreshToken());
     }
 }

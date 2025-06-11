@@ -12,7 +12,6 @@ import com.esoft.security.AuthoritiesConstants;
 import com.esoft.service.UserInternalService;
 import com.esoft.service.dto.AdminUserDTO;
 import com.esoft.service.mapper.UserMapper;
-import com.esoft.web.rest.web.UserResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import java.util.*;

@@ -10,11 +10,11 @@
     -->
     <changeSet id="20250606161125-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="transaction"
-                                 constraintName="fk_transaction__user_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="jhi_user"
-                                 />
+<!--        <addForeignKeyConstraint baseColumnNames="user_id"-->
+<!--                                 baseTableName="transaction"-->
+<!--                                 constraintName="fk_transaction__user_id"-->
+<!--                                 referencedColumnNames="id"-->
+<!--                                 referencedTableName="jhi_user"-->
+<!--                                 />-->
     </changeSet>
 </databaseChangeLog>

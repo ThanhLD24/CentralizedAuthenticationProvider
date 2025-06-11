@@ -2,6 +2,8 @@ package com.esoft.web.rest.external;
 
 import com.esoft.service.AuthenticationService;
 import com.esoft.service.dto.AuthorizationDTO;
+import com.esoft.service.dto.AuthorizationDataDTO;
+import com.esoft.service.dto.Result;
 import com.esoft.utils.JWTUtil;
 import com.esoft.web.rest.dto.*;
 import com.esoft.service.dto.TokenResponseDTO;
@@ -26,54 +28,54 @@ public class AuthenticationResource {
     }
 
     @PostMapping("/create-token")
-    public ResponseEntity<ApiResponse<TokenResponseDTO>> getToken(@Valid @RequestBody AuthRequest request) {
+    public ResponseEntity<ApiResponse<AuthorizationDataDTO>> getToken(@Valid @RequestBody AuthRequest request) {
         LOG.info("Creating token for user: {}", request.getUsername());
-        TokenResponseDTO tokenResponseDTO = authService.createToken(request.getUsername(), request.getPassword());
+        AuthorizationDataDTO result = authService.createToken(request.getUsername(), request.getPassword());
 
         return ResponseEntity.ok(
-            ApiResponse.<TokenResponseDTO>builder()
+            ApiResponse.<AuthorizationDataDTO>builder()
                 .status(ResponseStatus.SUCCESS)
                 .message("Authentication successful")
-                .data(tokenResponseDTO)
+                .data(result)
                 .build()
         );
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<ApiResponse<TokenResponseDTO>> refreshToken(@Valid @RequestBody RefreshTokenRequest request) {
+    public ResponseEntity<ApiResponse<AuthorizationDataDTO>> refreshToken(@Valid @RequestBody RefreshTokenRequest request) {
         LOG.info("Refreshing token for user: {}", jwtUtil.hashToken(request.getRefreshToken()));
-        TokenResponseDTO tokenResponseDTO = authService.refreshToken(request.getRefreshToken());
+        AuthorizationDataDTO result = authService.refreshToken(request.getRefreshToken());
         return ResponseEntity.ok(
-            ApiResponse.<TokenResponseDTO>builder()
+            ApiResponse.<AuthorizationDataDTO>builder()
                 .status(ResponseStatus.SUCCESS)
                 .message("Token refreshed successfully")
-                .data(tokenResponseDTO)
+                .data(result)
                 .build()
         );
     }
 
     @GetMapping("/validate-token")
-    public ResponseEntity<ApiResponse<AuthorizationDTO>> validateToken(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<ApiResponse<AuthorizationDataDTO>> validateToken(@RequestHeader("Authorization") String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new RuntimeException("Invalid Authorization header");
         }
         String token = authHeader.replace("Bearer ", "");
         LOG.info("Validating token: {}", jwtUtil.hashToken(token));
-        AuthorizationDTO result = authService.validateToken(token);
+        Result<AuthorizationDataDTO> result = authService.validateToken(token);
 
-        if (!result.isAuthorized()) {
+        if (!result.isSuccess()) {
             return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED) // 401 hoặc 403 tùy logic
-                .body(new ApiResponse<AuthorizationDTO>(
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponse<AuthorizationDataDTO>(
                     ResponseStatus.ERROR, result.getMessage()
                 ));
         }
 
         return ResponseEntity.ok(
-            ApiResponse.<AuthorizationDTO>builder()
+            ApiResponse.<AuthorizationDataDTO>builder()
                 .status(ResponseStatus.SUCCESS)
                 .message("Token is valid")
-                .data(result)
+                .data(result.getData())
                 .build()
         );
     }

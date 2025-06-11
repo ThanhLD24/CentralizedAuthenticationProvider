@@ -17,6 +17,8 @@
 ---
 # Conditionally disable springdoc on missing api-docs profile
 spring:
+  jmx:
+    enabled: false
   config:
     activate:
       on-profile: '!api-docs'
@@ -73,11 +75,11 @@ management:
       application: ${spring.application.name}
   metrics:
     enable:
-      http: true
-      jvm: true
-      logback: true
-      process: true
-      system: true
+      http: false
+      jvm: false
+      logback: false
+      process: false
+      system: false
     distribution:
       percentiles-histogram:
         all: true

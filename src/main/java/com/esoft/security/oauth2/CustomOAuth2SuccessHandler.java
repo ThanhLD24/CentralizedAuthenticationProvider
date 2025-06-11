@@ -5,6 +5,7 @@ import com.esoft.repository.UserRepository;
 import com.esoft.service.AuthenticationService;
 import com.esoft.service.UserInternalService;
 import com.esoft.service.dto.AdminUserDTO;
+import com.esoft.service.dto.AuthorizationDataDTO;
 import com.esoft.service.dto.TokenResponseDTO;
 import com.esoft.service.errors.UnauthorizedException;
 import com.esoft.utils.JWTUtil;
@@ -51,13 +52,17 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
         String provider = oauthToken.getAuthorizedClientRegistrationId();
 
         User appUser = registerUser(user, provider);
+        if (!appUser.isActivated()) {
+            throw new UnauthorizedException("User account is not activated");
+        }
+
         List<GrantedAuthority> grantedAuthorities = appUser.getAuthorities().stream()
             .map(authority -> new SimpleGrantedAuthority(authority.getName()))
             .collect(Collectors.toList());
         UsernamePasswordAuthenticationToken localAuthentication = new UsernamePasswordAuthenticationToken(
             appUser.getLogin(), null, grantedAuthorities);
-        TokenResponseDTO tokenPair = authenticationService.createToken(localAuthentication);
-
+        AuthorizationDataDTO authorizationData = authenticationService.createToken(localAuthentication);
+        TokenResponseDTO tokenPair = authorizationData.getToken();
         HttpSession session = request.getSession();
         String redirectUri = (String) session.getAttribute("redirect_uri");
         session.removeAttribute("redirect_uri");

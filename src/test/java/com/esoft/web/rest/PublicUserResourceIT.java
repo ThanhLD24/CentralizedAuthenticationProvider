@@ -12,7 +12,6 @@ import com.esoft.service.UserInternalService;
 import java.util.Objects;
 import java.util.Set;
 
-import com.esoft.web.rest.web.PublicUserResource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

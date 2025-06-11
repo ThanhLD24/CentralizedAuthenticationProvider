@@ -15,7 +15,6 @@ import com.esoft.service.dto.AdminUserDTO;
 import com.esoft.service.dto.PasswordChangeDTO;
 import com.esoft.web.rest.dto.vm.KeyAndPasswordVM;
 import com.esoft.web.rest.dto.vm.ManagedUserVM;
-import com.esoft.web.rest.web.AccountResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.*;

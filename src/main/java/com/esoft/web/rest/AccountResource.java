@@ -1,4 +1,4 @@
-package com.esoft.web.rest.web;
+package com.esoft.web.rest;
 
 import com.esoft.domain.User;
 import com.esoft.service.errors.EmailAlreadyUsedException;
