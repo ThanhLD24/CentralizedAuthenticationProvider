@@ -2,12 +2,15 @@ package com.esoft.service.impl;
 
 import com.esoft.config.Constants;
 import com.esoft.domain.TokenHistory;
+import com.esoft.domain.Transaction;
 import com.esoft.domain.User;
 import com.esoft.domain.enumeration.TokenStatus;
 import com.esoft.domain.enumeration.TokenType;
+import com.esoft.repository.TransactionRepository;
 import com.esoft.repository.UserRepository;
 import com.esoft.service.AuthenticationService;
 import com.esoft.service.TokenHistoryService;
+import com.esoft.service.TransactionService;
 import com.esoft.service.UserInternalService;
 import com.esoft.service.dto.*;
 import com.esoft.service.mapper.UserMapper;
@@ -34,14 +37,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JWTUtil jwtUtil;
     private final UserRepository userRepository;
     private final TokenHistoryService tokenHistoryService;
+    private final TransactionRepository transactionRepository;
     private final UserMapper userMapper;
     public AuthenticationServiceImpl(AuthenticationManagerBuilder authenticationManagerBuilder, JWTUtil jwtUtil,
-                                     UserRepository userRepository, TokenHistoryService tokenHistoryService,
+                                     UserRepository userRepository, TokenHistoryService tokenHistoryService, TransactionRepository transactionRepository,
                                      UserMapper userMapper) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
         this.tokenHistoryService = tokenHistoryService;
+        this.transactionRepository = transactionRepository;
         this.userMapper = userMapper;
     }
 
@@ -96,10 +101,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (tokenHistory.getStatus() == TokenStatus.REVOKED) {
             return Result.failure(Constants.AUTH_MESSAGE.TOKEN_REVOKED);
         }
+        Instant lastAccessed = transactionRepository.findLastTransactionDateByUserId(tokenHistory.getUser().getId());
 
         return Result.success(
             new AuthorizationDataDTO(
-                userMapper.userToAdminUserDTO(tokenHistory.getUser())),
+                userMapper.userToAdminUserDTO(tokenHistory.getUser(), lastAccessed)),
             Constants.AUTH_MESSAGE.TOKEN_VALID
         );
     }

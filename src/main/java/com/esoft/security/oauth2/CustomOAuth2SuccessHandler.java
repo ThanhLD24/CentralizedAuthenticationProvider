@@ -89,7 +89,7 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
         adminUserDTO.setEmail(email);
         adminUserDTO.setLogin(email);
         adminUserDTO.setFirstName(name);
-//            adminUserDTO.setProvider(provider);
+        adminUserDTO.setProvider(provider);
         adminUserDTO.setActivated(true);
         adminUserDTO.setLangKey("en");
         adminUserDTO.setAuthorities(oAuth2Provider.getMappedAuthorities(oAuth2User));

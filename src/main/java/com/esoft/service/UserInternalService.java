@@ -177,6 +177,11 @@ public class UserInternalService {
                 .collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
+        if (userDTO.getProvider() != null) {
+            user.setProvider(userDTO.getProvider());
+        } else {
+            user.setProvider("local");
+        }
         userRepository.save(user);
         this.clearUserCaches(user);
         LOG.debug("Created Information for User: {}", user);

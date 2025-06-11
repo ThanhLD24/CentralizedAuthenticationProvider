@@ -4,6 +4,8 @@ import com.esoft.domain.Authority;
 import com.esoft.domain.User;
 import com.esoft.service.dto.AdminUserDTO;
 import com.esoft.service.dto.UserDTO;
+
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.mapstruct.BeanMapping;
@@ -34,6 +36,10 @@ public class UserMapper {
 
     public AdminUserDTO userToAdminUserDTO(User user) {
         return new AdminUserDTO(user);
+    }
+
+    public AdminUserDTO userToAdminUserDTO(User user, Instant lastAccessed) {
+        return new AdminUserDTO(user, lastAccessed);
     }
 
     public List<User> userDTOsToUsers(List<AdminUserDTO> userDTOs) {

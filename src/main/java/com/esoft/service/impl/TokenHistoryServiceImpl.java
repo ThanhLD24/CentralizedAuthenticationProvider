@@ -80,7 +80,7 @@ public class TokenHistoryServiceImpl implements TokenHistoryService {
     }
 
     @Override
-//    @Cacheable(cacheNames = CACHE_FIND_ONE_BY_HASHED_TOKEN, key = "#hashedToken")
+    @Cacheable(cacheNames = CACHE_FIND_ONE_BY_HASHED_TOKEN, key = "#hashedToken")
     public Optional<TokenHistory> findOneByHashedToken(String hashedToken) {
         return tokenHistoryRepository.findOneByHashedToken(hashedToken);
     }
