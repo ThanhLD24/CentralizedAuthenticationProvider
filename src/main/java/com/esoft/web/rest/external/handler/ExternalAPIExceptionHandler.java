@@ -1,4 +1,4 @@
-package com.esoft.web.filter;
+package com.esoft.web.rest.external.handler;
 
 import com.esoft.service.errors.BadRequestAlertException;
 import com.esoft.service.errors.BusinessException;

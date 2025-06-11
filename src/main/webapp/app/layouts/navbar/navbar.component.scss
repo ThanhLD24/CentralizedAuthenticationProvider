@@ -27,10 +27,16 @@ Navbar
 Logo styles
 ========================================================================== */
 .logo-img {
-  height: 45px;
-  width: 45px;
+  height: 40px;
+  width: 70px;
+  margin-bottom: 7px;
+  margin-right: 10px;
   display: inline-block;
   vertical-align: middle;
-  background: url('/content/images/logo-jhipster.png') no-repeat center center;
+  //background: url('/content/images/logo-jhipster.png') no-repeat center center;
+  //image-rendering: pixelated;
+  //flex-shrink: 0;
+  //background-size: 100% 100%;
+  background: url('/content/images/esoft-2.svg') no-repeat center center;
   background-size: contain;
 }

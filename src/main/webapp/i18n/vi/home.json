@@ -1,7 +1,7 @@
 {
   "home": {
-    "title": "Chào mừng bạn đến với Java Hipster!",
-    "subtitle": "Đây là trang chủ của bạn",
+    "title": "Hệ thống xác thực tập trung",
+    "subtitle": "Trang chủ",
     "logged": {
       "message": "Bạn đang đăng nhập bằng tài khoản \"{{username}}\"."
     },
