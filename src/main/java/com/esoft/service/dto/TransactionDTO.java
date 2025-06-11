@@ -1,5 +1,9 @@
 package com.esoft.service.dto;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -7,7 +11,8 @@ import java.util.Objects;
 /**
  * A DTO for the {@link com.esoft.domain.Transaction} entity.
  */
-@SuppressWarnings("common-java:DuplicatedBlocks")
+@Data
+@NoArgsConstructor
 public class TransactionDTO implements Serializable {
 
     private Long id;

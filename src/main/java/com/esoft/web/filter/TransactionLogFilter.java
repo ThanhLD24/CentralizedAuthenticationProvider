@@ -5,12 +5,15 @@ import com.esoft.domain.Transaction;
 import com.esoft.repository.TransactionRepository;
 import com.esoft.security.SecurityUtils;
 import com.esoft.service.TokenHistoryService;
+import com.esoft.service.TransactionService;
+import com.esoft.service.dto.TransactionDTO;
 import com.esoft.utils.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -19,9 +22,10 @@ import java.time.Instant;
 
 @Component
 public class TransactionLogFilter extends OncePerRequestFilter {
+    private static final String API_PREFIX = "/api/";
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionService transactionService;
 
     @Autowired
     private TokenHistoryService tokenHistoryService;
@@ -31,6 +35,12 @@ public class TransactionLogFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String path = request.getRequestURI();
+        if (!path.startsWith(API_PREFIX)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         CachedBodyHttpServletRequest wrappedRequest = new CachedBodyHttpServletRequest(request);
         CachedBodyHttpServletResponse wrappedResponse = new CachedBodyHttpServletResponse(response);
 
@@ -43,7 +53,6 @@ public class TransactionLogFilter extends OncePerRequestFilter {
         String authToken = extractTokenFromRequest(wrappedRequest);
         Long tokenId = getTokenIdFromTokenHistory(authToken);
         String method = request.getMethod();
-        String path = request.getRequestURI();
 
         Long userId = SecurityUtils.getCurrentUserId().orElse(0L);
         String username = SecurityUtils.getCurrentUserLogin()
@@ -53,7 +62,7 @@ public class TransactionLogFilter extends OncePerRequestFilter {
 //        String reqBody = new String(wrappedRequest.getCachedBody());
 //        String resBody = new String(wrappedResponse.getCachedBody());
 
-        saveTransactionLog(method, path, userId, tokenId, username, clientIp, status, duration);
+        saveTransactionLogAsync(method, path, userId, tokenId, username, clientIp, status, duration);
         wrappedResponse.copyBodyToResponse();
     }
 
@@ -73,10 +82,9 @@ public class TransactionLogFilter extends OncePerRequestFilter {
         return null;
     }
 
-    //TODO: using async instead of synchronous logging
-    private void saveTransactionLog(String method, String path, Long userId, Long tokenId, String username,
-                                   String clientIp, int status, long duration) {
-        Transaction log = new Transaction();
+    private void saveTransactionLogAsync(String method, String path, Long userId, Long tokenId, String username,
+                                      String clientIp, int status, long duration) {
+        TransactionDTO log = new TransactionDTO();
         log.setRequestMethod(method);
         log.setRequestPath(path);
         log.setTokenHistoryId(tokenId);
@@ -86,6 +94,6 @@ public class TransactionLogFilter extends OncePerRequestFilter {
         log.setStatus(status);
         log.setDuration(duration);
         log.setCreatedDate(Instant.now());
-        transactionRepository.save(log);
+        transactionService.saveAsync(log);
     }
 }
