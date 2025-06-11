@@ -1,3 +1,0 @@
-USE centralizedauthenticationprovider;
-INSERT INTO centralizedauthenticationprovider.application_system (id, name, description, created_date, updated_date, active, hashed_secret_key) VALUES (1, 'System-01', 'system-01', '2025-06-10 19:02:38.000000', '2025-06-10 19:02:39.000000', 1, '3Fw6Sw8mhKCdjxOaOU160IXQcMOKXkMJhSGIW7iBqos');
-INSERT INTO centralizedauthenticationprovider.application_system (id, name, description, created_date, updated_date, active, hashed_secret_key) VALUES (2, 'System-02', 'system-02', '2025-06-10 19:02:38.000000', '2025-06-10 19:02:39.000000', 1, 'h2jTQ3o6y4dz3NYVsPMLtaAtnAJRNnC9GAnEJTpiIAw');
