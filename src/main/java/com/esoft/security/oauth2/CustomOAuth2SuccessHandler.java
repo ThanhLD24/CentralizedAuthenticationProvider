@@ -82,7 +82,7 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
 
         Optional<User> appUser = userInternalService.getUserWithAuthoritiesByLogin(email);
         if (appUser.isPresent()) {
-            return appUser.get();
+            return appUser.orElseThrow();
         }
 
         AdminUserDTO adminUserDTO = new AdminUserDTO();

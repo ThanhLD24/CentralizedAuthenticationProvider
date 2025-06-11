@@ -41,12 +41,12 @@ public class UserExternalServiceImpl implements UserExternalService {
     public AdminUserDTO updateUser(AdminUserDTO userDTO) {
         Optional<User> existingUserOpt = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
         if (existingUserOpt.isPresent()) {
-            User existingUser = existingUserOpt.get();
+            User existingUser = existingUserOpt.orElseThrow();
             if (!existingUser.getId().equals(userDTO.getId())) {
                 throw new LoginAlreadyUsedException();
             }
         }
-        return userInternalService.updateUser(userDTO).get();
+        return userInternalService.updateUser(userDTO).orElseThrow();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class UserExternalServiceImpl implements UserExternalService {
         Optional<User> user = userRepository.findOneWithAuthoritiesByLogin(username);
         if (user.isEmpty())
             throw new UserNotFoundException(username);
-        return mapper.userToAdminUserDTO(user.get());
+        return mapper.userToAdminUserDTO(user.orElseThrow());
     }
 
 }

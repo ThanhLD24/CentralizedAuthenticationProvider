@@ -5,6 +5,7 @@ services:
     image: mariadb:11.7.2
     volumes:
       - ./config/mariadb:/etc/mariadb/conf.d
+      - ./config/init-sql:/docker-entrypoint-initdb.d/
     # volumes:
     #   - ~/volumes/jhipster/CentralizedAuthenticationProvider/mariadb/:/var/lib/mariadb/
     environment:

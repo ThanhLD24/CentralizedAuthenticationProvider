@@ -97,7 +97,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return Result.failure(Constants.AUTH_MESSAGE.TOKEN_NOT_FOUND);
         }
 
-        TokenHistory tokenHistory = tokenHistoryOptional.get();
+        TokenHistory tokenHistory = tokenHistoryOptional.orElseThrow();
         if (tokenHistory.getStatus() == TokenStatus.REVOKED) {
             return Result.failure(Constants.AUTH_MESSAGE.TOKEN_REVOKED);
         }

@@ -9,10 +9,12 @@ services:
       - MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED=true
       - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/centralizedauthenticationprovider?useLegacyDatetimeCode=false
       - SPRING_LIQUIBASE_URL=jdbc:mariadb://mariadb:3306/centralizedauthenticationprovider?useLegacyDatetimeCode=false
+      - SPRING_DATASOURCE_USERNAME=administrator
+      - SPRING_DATASOURCE_PASSWORD=admin@###2o25
       - JAVA_OPTS=-Djgroups.tcp.address=NON_LOOPBACK
         -Djava.net.preferIPv4Stack=true
     ports:
-      - 127.0.0.1:8080:8080
+      - 8080:8080
     healthcheck:
       test:
         - CMD

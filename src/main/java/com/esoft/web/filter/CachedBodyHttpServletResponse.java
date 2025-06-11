@@ -41,7 +41,7 @@ public class CachedBodyHttpServletResponse extends HttpServletResponseWrapper {
     @Override
     public PrintWriter getWriter() throws UnsupportedEncodingException {
         if (writer == null) {
-            writer = new PrintWriter(new OutputStreamWriter(cachedContent, getCharacterEncoding()), true);
+            writer = new PrintWriter(new OutputStreamWriter(cachedContent, java.nio.charset.Charset.forName(getCharacterEncoding())));
         }
         return writer;
     }
